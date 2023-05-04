@@ -2,7 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import backgroundImage from "./src/Images/Photo-BG.png";
 import { StyleSheet, View, ImageBackground } from "react-native";
-import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+// import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto: require("./src/assets/fonts/Roboto-Black.ttf"),
@@ -13,7 +14,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundImage} style={styles.image}>
-        <RegistrationScreen />
+        <LoginScreen />
         <StatusBar style="auto" />
       </ImageBackground>
     </View>
