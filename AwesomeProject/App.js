@@ -1,11 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-
+import { useFonts } from "expo-font";
+import backgroundImage from "./src/Images/Photo-BG.png";
+import { StyleSheet, View, ImageBackground } from "react-native";
+import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Roboto: require("./src/assets/fonts/Roboto-Black.ttf"),
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
-      <Text>Тут могла бути ваша реклама +380 98 975 2841</Text>
-      <StatusBar style="auto" />
+      <ImageBackground source={backgroundImage} style={styles.image}>
+        <RegistrationScreen />
+        <StatusBar style="auto" />
+      </ImageBackground>
     </View>
   );
 }
@@ -13,8 +23,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  image: {
+    position: "relative",
+    top: 0,
+    minWidth: "100%",
+    minHeight: "100%",
   },
 });
