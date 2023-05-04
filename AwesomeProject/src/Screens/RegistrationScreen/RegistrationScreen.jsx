@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { View, Text, Image,TextInput,StyleSheet,Button,Pressable }  from "react-native"
+import { View, Text, Image,TextInput,StyleSheet,ImageBackground,Pressable }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
-
+import backgroundImage from "../../Images/Photo-BG.png";
 const RegistrationScreen = () => {
    const [isActive1, setActive1] = useState(false);
   const [isActive2, setActive2] = useState(false);
   const [isActive3, setActive3] = useState(false);
-   return <View style={styles.container}>
+  return <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+  <View style={styles.container}>
      <View style={styles.imageContainer}>
        <Image
         //  source={LogoImage}
@@ -17,17 +18,18 @@ const RegistrationScreen = () => {
        </View>
          
        <Text style={styles.title}>Регистрация</Text>
-     <TextInput type="text" style={{ borderColor: isActive1?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onFocus={()=>setActive1(true)}/>
-     <TextInput type="mail" style={{ borderColor: isActive2?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onFocus={()=>setActive2(true)} />
+     <TextInput type="text" style={{ borderColor: isActive1?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={()=>setActive1(true)}/>
+     <TextInput type="mail" style={{ borderColor: isActive2?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={()=>setActive2(true)} />
      <View style={{ width:"100%"}}>
-       <TextInput type="password" style={{ borderColor: isActive3?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onFocus={()=>setActive3(true)} />
+       <TextInput type="password" style={{ borderColor: isActive3?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={()=>setActive3(true)} />
        <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показать</Text>
      </View>
        <Pressable style={styles.button}>
          <Text style={styles.buttonText}>Зарегистрироваться</Text>
        </Pressable>
        <Text style={styles.textLink}>Уже есть аккаунт? Войти</Text>
-     </View>
+    </View>
+    </ImageBackground>
 }
 const styles = StyleSheet.create({
   container: {
@@ -70,8 +72,8 @@ color: "#212121",
     padding:0,
     display: "flex",
     marginTop:43,
-flexirection: "column",
-alignItems: "center",
+    flexirection: "column",
+    alignItems: "center",
     padding: 16,
 marginBottom:16,
   },
@@ -119,7 +121,13 @@ fontWeight: 400,
 fontSize: 16,
     lineHeight: 19,
 color: "#1B4371",
-  }
+  },
+  ImageBackground: {
+    position: "relative",
+    top: 0,
+    minWidth: "100%",
+    minHeight: "100%",
+  },
 
 });
 

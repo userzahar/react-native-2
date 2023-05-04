@@ -1,22 +1,25 @@
 import { useState } from "react";
-import { View, Text, Image,TextInput,StyleSheet,Button,Pressable }  from "react-native"
+import { View, Text, TextInput,StyleSheet,ImageBackground,Pressable }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
+import backgroundImage from "../../Images/Photo-BG.png";
 
 const LoginScreen = () => {
   const [isActive2, setActive2] = useState(false);
   const [isActive3, setActive3] = useState(false);
-   return <View style={styles.container}>
+  return <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+  <View style={styles.container}>
        <Text style={styles.title}>Вход</Text>
-     <TextInput type="mail" style={{ borderColor: isActive2?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onFocus={()=>setActive2(true)} />
+     <TextInput type="mail" style={{ borderColor: isActive2?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={()=>setActive2(true)} />
      <View style={{ width:"100%"}}>
-       <TextInput type="password" style={{ borderColor: isActive3?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onFocus={()=>setActive3(true)} />
+           <TextInput type="password" style={{ borderColor: isActive3 ? "#FF6C00" : "#E8E8E8", ...styles.input }} onBlur={()=>setActive3(true)} />
        <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показать</Text>
      </View>
        <Pressable style={styles.button}>
          <Text style={styles.buttonText}>Войти</Text>
        </Pressable>
        <Text style={styles.textLink}>Нет аккаунта? Зарегистрироваться</Text>
-     </View>
+    </View>
+    </ImageBackground>
 }
 const styles = StyleSheet.create({
   container: {
@@ -108,7 +111,13 @@ fontWeight: 400,
 fontSize: 16,
     lineHeight: 19,
 color: "#1B4371",
-  }
+  },
+  ImageBackground: {
+    position: "relative",
+    top: 0,
+    minWidth: "100%",
+    minHeight: "100%",
+  },
 
 });
 
