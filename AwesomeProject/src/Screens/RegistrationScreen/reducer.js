@@ -20,7 +20,7 @@ export const reducer = (state, action) => {
       return {
         ...state,
         [action.payload.index]: {
-          // ...state[action.payload],
+          ...state[action.payload.index],
           value: action.payload.value,
         },
       };

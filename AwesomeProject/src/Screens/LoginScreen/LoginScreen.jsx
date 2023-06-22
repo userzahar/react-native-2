@@ -1,20 +1,59 @@
-import { useState } from "react";
-import { View, Text, TextInput,StyleSheet,ImageBackground,Pressable }  from "react-native"
+import { useReducer } from "react";
+import { reducer } from "../RegistrationScreen/reducer";
+import { initialState } from "./initialState";
+import {Platform, KeyboardAvoidingView, View, Text, TextInput,StyleSheet,ImageBackground,Pressable }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
 import backgroundImage from "../../Images/Photo-BG.png";
 
 const LoginScreen = () => {
-  const [isActive2, setActive2] = useState(false);
-  const [isActive3, setActive3] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState)
+ 
+  const handleChange = (value, index) => {
+    dispatch({
+      type: "CHANGE",
+      payload: { index, value },
+    });
+  };
+
+  const onLogin = () => {
+    console.log({
+      email: state.input1.value,
+      password:state.input2.value,
+    })
+    if (state.input1.value.length > 4) {
+      dispatch({ type: "UNBLUR", payload: "input1" })
+    }
+    if (state.input2.value.length > 4) {
+      dispatch({ type: "UNBLUR", payload: "input2" })
+    }
+  }
+
+
   return <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
             <View style={styles.container}>
                 <Text style={styles.title}>Вход</Text>
-                <TextInput type="mail" style={{ borderColor: isActive2?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={()=>setActive2(true)} />
-                <View style={{ width:"100%"}}>
-                      <TextInput type="password" style={{ borderColor: isActive3 ? "#FF6C00" : "#E8E8E8", ...styles.input }} onBlur={()=>setActive3(true)} />
-                  <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показать</Text>
-                </View>
-                <Pressable style={styles.button}>
+                    <KeyboardAvoidingView style={styles.containerWidth} behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                        <TextInput type="mail"
+                                    style={{ borderColor: state.input1.borderColor, ...styles.input }}
+                                    onBlur={() => dispatch({ type: "BLUR", payload: "input1" })}
+                                    value={state.input1.value}
+                                    onChangeText={(value) => handleChange(value, "input1")}
+                                    placeholder="Адреса електронної пошти"
+              />
+                    </KeyboardAvoidingView>   
+                    <View style={styles.containerWidth}>
+                        <KeyboardAvoidingView style={styles.containerWidth} behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                            <TextInput  type="password"
+                                        style={{ borderColor: state.input2.borderColor, ...styles.input }}
+                                        onBlur={() => dispatch({ type: "BLUR", payload: "input2" })}
+                                        onChangeText={(value) => handleChange(value, "input2")}
+                                        placeholder="Пароль"
+                                        value={state.input2.value}
+                            />
+                        </KeyboardAvoidingView>
+                        <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показать</Text>
+                    </View>
+                <Pressable style={styles.button} onPress={onLogin}>
                   <Text style={styles.buttonText}>Войти</Text>
                 </Pressable>
                 <Text style={styles.textLink}>Нет аккаунта? Зарегистрироваться</Text>
@@ -118,6 +157,7 @@ ImageBackground: {
     minWidth: "100%",
     minHeight: "100%",
   },
+  containerWidth:{width:"100%"}
 
 });
 

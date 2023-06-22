@@ -6,9 +6,9 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+//   import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
 import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
-import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
+// import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto: require("./src/assets/fonts/Roboto-Black.ttf"),
@@ -16,12 +16,12 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  console.log("rjycjkm");
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <RegistrationScreen />
-        {/* <LoginScreen /> */}
+        {/* <RegistrationScreen /> */}
+        <LoginScreen />
         {/* <PostsScreen /> */}
         <StatusBar style="auto" />
       </View>
