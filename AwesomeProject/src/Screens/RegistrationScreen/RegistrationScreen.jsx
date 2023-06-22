@@ -1,11 +1,32 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import { View, Text, Image,TextInput,StyleSheet,ImageBackground,Pressable,KeyboardAvoidingView,Platform }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
 import backgroundImage from "../../Images/Photo-BG.png";
+const initialState = {
+  input1: {isBlur: false},
+  input2:{isBlur: false},
+  input3:{isBlur:false},
+};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "BLUR":
+      return {
+        ...state,
+        [action.payload]: {
+          ...state[action.payload],
+          isBlur: true
+        }
+      }
+    default:
+      return state
+  }
+}
+
+
+
 const RegistrationScreen = () => {
-   const [isActive1, setActive1] = useState(false);
-  const [isActive2, setActive2] = useState(false);
-  const [isActive3, setActive3] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState)
+  
   return  (<ImageBackground source={backgroundImage} style={styles.ImageBackground}>
               <View style={styles.container}>
                   <View style={styles.imageContainer}>
@@ -18,13 +39,13 @@ const RegistrationScreen = () => {
                   </View>
                   
                       <Text style={styles.title}>Регистрация</Text>
-                      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>   
-                            <TextInput type="text" style={{ borderColor: isActive1?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={()=>setActive1(true)}/>
-                            <TextInput type="mail" style={{ borderColor: isActive2?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={()=>setActive2(true)} />
+                      <KeyboardAvoidingView style={styles.containerWidth} behavior={Platform.OS == "ios" ? "padding" : "height"}>   
+                            <TextInput type="text" style={{ borderColor: state.input1.isBlur ?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={() => dispatch({ type: "BLUR", payload: "input1" })}/>
+                            <TextInput type="mail" style={{ borderColor: state.input2.isBlur?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={() => dispatch({ type: "BLUR", payload: "input2" })} />
                       </KeyboardAvoidingView>
-                      <View style={{ width:"100%"}}>
+                      <View style={styles.containerWidth}>
                           <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                              <TextInput type="password" style={{ borderColor: isActive3?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={()=>setActive3(true)} />
+                              <TextInput type="password" style={{ borderColor: state.input3.isBlur?  "#FF6C00" :"#E8E8E8" , ...styles.input}} onBlur={() => dispatch({ type: "BLUR", payload: "input3" })} />
                           </KeyboardAvoidingView>
                           <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показать</Text>
                       </View>
@@ -132,7 +153,9 @@ color: "#1B4371",
     minWidth: "100%",
     minHeight: "100%",
   },
-
+  containerWidth: {
+    width:"100%",
+  },
 });
 
 export default RegistrationScreen;
