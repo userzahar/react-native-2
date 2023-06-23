@@ -6,8 +6,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-//   import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
-import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
+  import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+// import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 // import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -20,9 +20,9 @@ export default function App() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        {/* <RegistrationScreen /> */}
-        <LoginScreen />
-        {/* <PostsScreen /> */}
+        <RegistrationScreen />
+        {/* <LoginScreen />
+        <PostsScreen /> */}
         <StatusBar style="auto" />
       </View>
     </TouchableWithoutFeedback>
