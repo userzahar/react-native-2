@@ -1,4 +1,4 @@
-import { useState,useReducer } from "react";
+import { useReducer } from "react";
 import { initialState } from "./initialState";
 import { reducer } from "./reducer";
 import { View, Text, Image,TextInput,StyleSheet,ImageBackground,Pressable,KeyboardAvoidingView,Platform }  from "react-native"

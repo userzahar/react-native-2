@@ -1,5 +1,7 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
+import {NavigationContainer} from "@react-navigation/native"
 import {
   StyleSheet,
   View,
@@ -9,6 +11,7 @@ import {
   // import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
 // import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
+import { NavigationContainer } from "@react-navigation/native";
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto: require("./src/assets/fonts/Roboto-Black.ttf"),
@@ -18,6 +21,7 @@ export default function App() {
   }
 
   return (
+    <NavigationContainer>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         {/* <RegistrationScreen /> */}
@@ -26,6 +30,7 @@ export default function App() {
         <StatusBar style="auto" />
       </View>
     </TouchableWithoutFeedback>
+    </NavigationContainer>
   );
 }
 
