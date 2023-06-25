@@ -1,17 +1,20 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import {NavigationContainer} from "@react-navigation/native"
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-  // import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
-// import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
+import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
-import { NavigationContainer } from "@react-navigation/native";
+
+const MainStack = createStackNavigator();
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto: require("./src/assets/fonts/Roboto-Black.ttf"),
@@ -22,14 +25,23 @@ export default function App() {
 
   return (
     <NavigationContainer>
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        {/* <RegistrationScreen /> */}
-        {/* <LoginScreen /> */}
-        <PostsScreen />
-        <StatusBar style="auto" />
-      </View>
-    </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <MainStack.Navigator initialRouteName="Login">
+          <MainStack.Screen
+            name="Registration"
+            component={RegistrationScreen}
+          />
+          <MainStack.Screen name="Login" component={LoginScreen} />
+          <MainStack.Screen name="Home" component={PostsScreen} />
+        </MainStack.Navigator>
+
+        <View style={styles.container}>
+          {/* <RegistrationScreen /> */}
+          {/* <LoginScreen /> */}
+          <PostsScreen />
+          <StatusBar style="auto" />
+        </View>
+      </TouchableWithoutFeedback>
     </NavigationContainer>
   );
 }
@@ -39,6 +51,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    
   },
 });
