@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     flexirection: "column",
     alignItems: "center",
     padding: 16,
-marginBottom:16,
+    marginBottom:16,
   },
   buttonText: {
      fontFamily: 'Roboto',

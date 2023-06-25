@@ -9,9 +9,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
-import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
-import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
+
+import CreatePostsScreen from "./src/Screens/CreatePostsScreen/CreatePostsScreen";
+// import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+// import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
+// import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
 
 const MainStack = createStackNavigator();
 
@@ -26,19 +28,20 @@ export default function App() {
   return (
     <NavigationContainer>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <MainStack.Navigator initialRouteName="Login">
+        {/* <MainStack.Navigator initialRouteName="Login">
           <MainStack.Screen
             name="Registration"
             component={RegistrationScreen}
           />
           <MainStack.Screen name="Login" component={LoginScreen} />
           <MainStack.Screen name="Home" component={PostsScreen} />
-        </MainStack.Navigator>
+        </MainStack.Navigator> */}
 
         <View style={styles.container}>
+          <CreatePostsScreen />
           {/* <RegistrationScreen /> */}
           {/* <LoginScreen /> */}
-          <PostsScreen />
+          {/* <PostsScreen /> */}
           <StatusBar style="auto" />
         </View>
       </TouchableWithoutFeedback>

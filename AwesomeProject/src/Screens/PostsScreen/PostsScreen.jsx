@@ -4,26 +4,27 @@ import toolBar from '../../Images/grid.png'
 import userImg from '../../Images/user.png'
 import addPostImage from "../../Images/Union.png"
 import userAvatar from "../../Images/default-user-avatar.png"
+
+
 const PostsScreen = () => {
     return <View style={styles.container}>
         <View style={styles.header}>
-        <Text style={styles.title}>Публикации</Text>
-        <Image
-         source={exitImage}
-            style={styles.exitIcon}
-        />
+            <Text style={styles.title}>Публикации</Text>
+            <Image
+            source={exitImage}
+                style={styles.exitIcon}
+            />
         </View>
         <View style={styles.profileContainer} >
-        <View style={styles.imageContainer}>
-            <Image
-                source={userAvatar}
-                style={styles.image} />
-       </View>
-            <View>
-                <Text>Natali Romanova</Text>
-                <Text>email@example.com</Text>
+            <View style={styles.imageContainer}>
+                <Image
+                    source={userAvatar}
+                    style={styles.image} />
             </View>
-            
+                <View>
+                    <Text>Natali Romanova</Text>
+                    <Text>email@example.com</Text>
+                </View>
         </View>
         <FlatList />
         <View style={styles.footer}>
