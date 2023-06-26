@@ -55,26 +55,26 @@ const CommentsScreen = ()=>{
         </View>
 
             <ScrollView vertical style={{...styles.messageList}}>
-            {COURSES.map((course) => {
-                return (
-                <View key={course.id} style={styles.messageListItem}>
-                    <View key={course.id} style={styles.avatarIMG}>
-                        <Image
-                            source={avatar} 
-                            style={styles.avatarIMG}
-                        />    
-                    </View>
-                    <View style={styles.messageTextContainer} >
-                        <View style={styles.messageText} >
-                            <Text>{course.title}</Text>
+                {COURSES.map((course) => {
+                    return (
+                    <View key={course.id} style={styles.messageListItem}>
+                        <View key={course.id} style={styles.avatarIMG}>
+                            <Image
+                                source={avatar} 
+                                style={styles.avatarIMG}
+                            />    
                         </View>
-                        <Text style={styles.dataText}>09 червня, 2020 | 08:40</Text>
-                    </View>           
-                </View>
-                )
-            }
-            )}
-        </ScrollView>
+                        <View style={styles.messageTextContainer} >
+                            <View style={styles.messageText} >
+                                <Text>{course.title}</Text>
+                            </View>
+                            <Text style={styles.dataText}>09 червня, 2020 | 08:40</Text>
+                        </View>           
+                    </View>
+                    )
+                    }
+                )}
+            </ScrollView>
 
       
 

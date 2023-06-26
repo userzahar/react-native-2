@@ -16,7 +16,7 @@ import CommentsScreen from "./src/Screens/CommentsScreen/CommentsScreen";
 // import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
 // import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 // import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
-
+// import ProfileScreen  from "./src/Screens/ProfileScreen/ProfileScreen";
 
 
 
@@ -44,6 +44,7 @@ export default function App() {
 
         <View style={styles.container}>
         <CommentsScreen/>
+        {/* <ProfileScreen/> */}
           {/* <CreatePostsScreen /> */}
           {/* <RegistrationScreen /> */}
           {/* <LoginScreen /> */}
