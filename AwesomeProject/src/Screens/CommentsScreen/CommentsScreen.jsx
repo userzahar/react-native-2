@@ -27,7 +27,7 @@ const COURSES = [
       },
       {
         id: "LGs16-ant5-0J25",
-        title: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
+        title: "pyp!",
       },
       {
         id: "LG1d6-ant5-0J25",
@@ -54,7 +54,7 @@ const CommentsScreen = ()=>{
             />
         </View>
 
-            <ScrollView style={{height:323,...styles.messageList}}>
+            <ScrollView vertical style={{...styles.messageList}}>
             {COURSES.map((course) => {
                 return (
                 <View key={course.id} style={styles.messageListItem}>
@@ -185,13 +185,14 @@ const styles = StyleSheet.create({
         display:"flex",
         flexDirection:"row",
         marginBottom:24,
+        minHeight:69,
     },
     messageList:{
         display:"flex",
         flexDirection:"column-reverse",
         // alignItems:"flex-end",
         overflow:"hidden",
-        height:323,
+        height:"100%",
         marginBottom:50,
     },
     messageTextContainer:{
@@ -199,6 +200,8 @@ const styles = StyleSheet.create({
         padding:16,
         display:"flex",
         alignItems:"flex-end",
+        backgroundColor:"rgba(0, 0, 0, 0.03)",
+        borderRadius:6,
     },
     messageText:{
         marginBottom:8,
