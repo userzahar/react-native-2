@@ -10,10 +10,15 @@ import {
   Keyboard,
 } from "react-native";
 
-import CreatePostsScreen from "./src/Screens/CreatePostsScreen/CreatePostsScreen";
+
+import CommentsScreen from "./src/Screens/CommentsScreen/CommentsScreen";
+// import CreatePostsScreen from "./src/Screens/CreatePostsScreen/CreatePostsScreen";
 // import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
 // import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 // import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
+
+
+
 
 const MainStack = createStackNavigator();
 
@@ -38,7 +43,8 @@ export default function App() {
         </MainStack.Navigator> */}
 
         <View style={styles.container}>
-          <CreatePostsScreen />
+        <CommentsScreen/>
+          {/* <CreatePostsScreen /> */}
           {/* <RegistrationScreen /> */}
           {/* <LoginScreen /> */}
           {/* <PostsScreen /> */}

@@ -83,8 +83,7 @@ const CreatePostsScreen = () => {
 }
 
 
-const center = "50%";
-const widthPhoto = "30px";
+
 
 const styles = StyleSheet.create({
     container: {
