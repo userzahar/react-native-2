@@ -37,7 +37,7 @@ const RegistrationScreen = () => {
 
   return  (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-  <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+      <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
               <View style={styles.container}>
                   <View style={styles.imageContainer}>
                     <Image
@@ -84,8 +84,8 @@ const RegistrationScreen = () => {
                     onPress={() => navigation.navigate("Login")}
                     >Уже есть аккаунт? Войти</Text>
               </View>
-            </ImageBackground>
-            </TouchableWithoutFeedback>
+      </ImageBackground>
+    </TouchableWithoutFeedback>
             )
 }
 const styles = StyleSheet.create({

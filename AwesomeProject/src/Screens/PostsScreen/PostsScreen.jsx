@@ -1,4 +1,4 @@
-import { View, Text, Image,FlatList, StyleSheet, Pressable } from "react-native";
+import { View, Text, Image,FlatList, StyleSheet, Pressable,TouchableWithoutFeedback,Keyboard,  } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation  } from "@react-navigation/native";
 import exitImage from "../../Images/log-out.png"
@@ -13,6 +13,7 @@ import userAvatar from "../../Images/default-user-avatar.png"
 const PostsScreen = () => {
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Публикации</Text>
@@ -57,6 +58,7 @@ const PostsScreen = () => {
                 </Pressable>
             </View>
         </View>
+    </TouchableWithoutFeedback>    
 )
 }
 

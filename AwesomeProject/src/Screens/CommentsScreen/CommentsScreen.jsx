@@ -1,4 +1,4 @@
-import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAvoidingView,ScrollView  } from "react-native";
+import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAvoidingView,ScrollView,TouchableWithoutFeedback,Keyboard,  } from "react-native";
 import ContentBlock from "../../Images/ContentBlock.png";
 import arrowLeft from "../../Images/arrow-left.png";
 import avatar from "../../Images/avatar.png";
@@ -38,68 +38,71 @@ const COURSES = [
 
 const CommentsScreen = ()=>{
     return (
-    <View  style={styles.container}>
-        <View style={styles.header}>
-            <Text style={styles.title}>Коментарі</Text>
-            <Image
-                source={arrowLeft}
-                    style={styles.arrowLeft}
-                />
-        </View>
-
-        <View style={styles.imageContainer}>
-            <Image
-                source={ContentBlock}
-                // style={}
-            />
-        </View>
-
-            <ScrollView vertical style={{...styles.messageList}}>
-                {COURSES.map((course) => {
-                    return (
-                    <View key={course.id} style={styles.messageListItem}>
-                        <View key={course.id} style={styles.avatarIMG}>
-                            <Image
-                                source={avatar} 
-                                style={styles.avatarIMG}
-                            />    
-                        </View>
-                        <View style={styles.messageTextContainer} >
-                            <View style={styles.messageText} >
-                                <Text>{course.title}</Text>
-                            </View>
-                            <Text style={styles.dataText}>09 червня, 2020 | 08:40</Text>
-                        </View>           
-                    </View>
-                    )
-                    }
-                )}
-            </ScrollView>
-
-      
-
-        <View style={styles.footer}>
-            <KeyboardAvoidingView style={styles.containerComment} behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                <TextInput  type="text"
-                            style={{
-                                //  borderColor: state.input2.borderColor, 
-                                 ...styles.input }}
-                            // onBlur={() => dispatch({ type: "BLUR", payload: "input2" })}
-                            // onChangeText={(value) => handleChange(value, "input2")}
-                            placeholder="Коментувати..."
-                            // value={state.input2.value}
-                />
-                <Pressable style={styles.trashButton}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View  style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Коментарі</Text>
                     <Image
-                        source={arrowUp}
-                        style={styles.trashIcon}
+                        source={arrowLeft}
+                            style={styles.arrowLeft}
+                        />
+                </View>
+
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={ContentBlock}
+                        // style={}
                     />
-                </Pressable>                
-            </KeyboardAvoidingView>
-        </View>
+                </View>
+
+                    <ScrollView vertical style={{...styles.messageList}}>
+                        {COURSES.map((course) => {
+                            return (
+                            <View key={course.id} style={styles.messageListItem}>
+                                <View key={course.id} style={styles.avatarIMG}>
+                                    <Image
+                                        source={avatar} 
+                                        style={styles.avatarIMG}
+                                    />    
+                                </View>
+                                <View style={styles.messageTextContainer} >
+                                    <View style={styles.messageText} >
+                                        <Text>{course.title}</Text>
+                                    </View>
+                                    <Text style={styles.dataText}>09 червня, 2020 | 08:40</Text>
+                                </View>           
+                            </View>
+                            )
+                            }
+                        )}
+                    </ScrollView>
+
+            
+
+                <View style={styles.footer}>
+                    <KeyboardAvoidingView style={styles.containerComment} behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                        <TextInput  type="text"
+                                    style={{
+                                        //  borderColor: state.input2.borderColor, 
+                                        ...styles.input }}
+                                    // onBlur={() => dispatch({ type: "BLUR", payload: "input2" })}
+                                    // onChangeText={(value) => handleChange(value, "input2")}
+                                    placeholder="Коментувати..."
+                                    // value={state.input2.value}
+                        />
+                        <Pressable style={styles.trashButton}>
+                            <Image
+                                source={arrowUp}
+                                style={styles.trashIcon}
+                            />
+                        </Pressable>                
+                    </KeyboardAvoidingView>
+                </View>
 
 
-    </View>)
+            </View>
+        </TouchableWithoutFeedback>
+            )
 }
 
 const styles = StyleSheet.create({

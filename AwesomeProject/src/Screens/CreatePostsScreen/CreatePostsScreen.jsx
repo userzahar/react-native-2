@@ -1,4 +1,4 @@
-import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAvoidingView  } from "react-native";
+import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard,   } from "react-native";
 import arrowLeft from "../../Images/arrow-left.png";
 import trashIcon from "../../Images/trashIcon.png";
 import cameraBlack from "../../Images/camera-black.png"
@@ -7,6 +7,7 @@ import locationIcon from "../../Images/locationIcon.png"
 
 const CreatePostsScreen = () => {
     return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Створити публікацію</Text>
@@ -79,6 +80,7 @@ const CreatePostsScreen = () => {
                     </Pressable>
             </View>
         </View>
+    </TouchableWithoutFeedback>    
     )
 }
 

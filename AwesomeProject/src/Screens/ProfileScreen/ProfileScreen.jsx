@@ -1,5 +1,5 @@
 
-import { View, Text, Image,ScrollView,StyleSheet,ImageBackground,Pressable }  from "react-native"
+import { View, Text, Image,ScrollView,StyleSheet,ImageBackground,Pressable,TouchableWithoutFeedback,Keyboard, }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
 import backgroundImage from "../../Images/Photo-BG.png";
 import ContentBlock from "../../Images/ContentBlock.png";
@@ -39,6 +39,7 @@ const POSTS = [
 
 const ProfileScreen = ()=>{
     return (
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
     <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -81,6 +82,7 @@ const ProfileScreen = ()=>{
             </ScrollView>
         </View>
     </ImageBackground>
+  </TouchableWithoutFeedback>  
       )
 }
 
