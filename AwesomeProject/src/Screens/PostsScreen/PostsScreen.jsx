@@ -7,8 +7,6 @@ import addPostImage from "../../Images/Union.png"
 import userAvatar from "../../Images/default-user-avatar.png"
 
 
-
-
 const PostsScreen = () => {
     const navigation = useNavigation();
     return (

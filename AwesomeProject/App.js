@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   StyleSheet,
   View,
@@ -21,6 +22,7 @@ import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
 
 
 const MainStack = createStackNavigator();
+const MainTab = createBottomTabNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
