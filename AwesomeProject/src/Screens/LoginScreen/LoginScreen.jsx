@@ -1,13 +1,16 @@
 import { useReducer } from "react";
+import { useNavigation  } from "@react-navigation/native";
 import { reducer } from "../RegistrationScreen/reducer";
 import { initialState } from "./initialState";
-import {Platform, KeyboardAvoidingView, View, Text, TextInput,StyleSheet,ImageBackground,Pressable }  from "react-native"
+import {Platform, KeyboardAvoidingView, View, Text, TextInput,StyleSheet,ImageBackground,Pressable,TouchableWithoutFeedback,Keyboard }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
 import backgroundImage from "../../Images/Photo-BG.png";
 
 const LoginScreen = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
- 
+  const navigation = useNavigation();
+
+
   const handleChange = (value, index) => {
     dispatch({
       type: "CHANGE",
@@ -25,11 +28,14 @@ const LoginScreen = () => {
     }
     if (state.input2.value.length > 4) {
       dispatch({ type: "UNBLUR", payload: "input2" })
-    }
+    };
+    navigation.navigate("Home")
   }
 
 
-  return <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+  return (
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+  <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
             <View style={styles.container}>
                 <Text style={styles.title}>Вход</Text>
                     <KeyboardAvoidingView style={styles.containerWidth} behavior={Platform.OS == "ios" ? "padding" : "height"}>
@@ -56,9 +62,13 @@ const LoginScreen = () => {
                 <Pressable style={styles.button} onPress={onLogin}>
                   <Text style={styles.buttonText}>Войти</Text>
                 </Pressable>
-                <Text style={styles.textLink}>Нет аккаунта? Зарегистрироваться</Text>
+                <Text style={styles.textLink}
+                onPress={() => navigation.navigate("Registration")}
+                >Нет аккаунта? Зарегистрироваться</Text>
             </View>
     </ImageBackground>
+    </TouchableWithoutFeedback>
+    )
 }
 const styles = StyleSheet.create({
   container: {

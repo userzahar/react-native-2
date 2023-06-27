@@ -1,4 +1,6 @@
 import { View, Text, Image,FlatList, StyleSheet, Pressable } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation  } from "@react-navigation/native";
 import exitImage from "../../Images/log-out.png"
 import toolBar from '../../Images/grid.png'
 import userImg from '../../Images/user.png'
@@ -6,45 +8,56 @@ import addPostImage from "../../Images/Union.png"
 import userAvatar from "../../Images/default-user-avatar.png"
 
 
+
+
 const PostsScreen = () => {
-    return <View style={styles.container}>
-        <View style={styles.header}>
-            <Text style={styles.title}>Публикации</Text>
-            <Image
-            source={exitImage}
-                style={styles.exitIcon}
-            />
-        </View>
-        <View style={styles.profileContainer} >
-            <View style={styles.imageContainer}>
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.title}>Публикации</Text>
                 <Image
-                    source={userAvatar}
-                    style={styles.image} />
+                source={exitImage}
+                    style={styles.exitIcon}
+                />
             </View>
-                <View>
-                    <Text>Natali Romanova</Text>
-                    <Text>email@example.com</Text>
+            <View style={styles.profileContainer} >
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={userAvatar}
+                        style={styles.image} />
                 </View>
+                    <View>
+                        <Text>Natali Romanova</Text>
+                        <Text>email@example.com</Text>
+                    </View>
+            </View>
+            <FlatList />
+
+            <View style={styles.footer}>
+                <Pressable>
+                    <Image
+                        source={toolBar}
+                        style={{width:24, height:24}}
+                    />
+                </Pressable>
+                <Pressable style={styles.button}
+                // onPress={() => navigation.navigate("CreatePost")}
+                >
+                    <Image
+                    source={addPostImage}
+                        style={{width:13, height:13}}
+                    />
+                </Pressable>
+                <Pressable>
+                        <Image
+                    source={userImg}
+                        style={{width:24, height:24}}
+                    />
+                </Pressable>
+            </View>
         </View>
-        <FlatList />
-        <View style={styles.footer}>
-            <Image
-                source={toolBar}
-                style={{width:24, height:24}}
-            />
-            <Pressable style={styles.button}>
-                <Image
-         source={addPostImage}
-            style={{width:13, height:13}}
-        />
-            </Pressable>
-            <Image
-         source={userImg}
-            style={{width:24, height:24}}
-        />
-        </View>
-    </View>
-    
+)
 }
 
 const styles = StyleSheet.create({

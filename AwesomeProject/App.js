@@ -13,9 +13,9 @@ import {
 
 import CommentsScreen from "./src/Screens/CommentsScreen/CommentsScreen";
 // import CreatePostsScreen from "./src/Screens/CreatePostsScreen/CreatePostsScreen";
-// import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
-// import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
-// import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
+import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
+import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
 // import ProfileScreen  from "./src/Screens/ProfileScreen/ProfileScreen";
 
 
@@ -32,26 +32,17 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        {/* <MainStack.Navigator initialRouteName="Login">
+        <MainStack.Navigator 
+        // initialRouteName="Home"
+        >
           <MainStack.Screen
             name="Registration"
             component={RegistrationScreen}
           />
           <MainStack.Screen name="Login" component={LoginScreen} />
           <MainStack.Screen name="Home" component={PostsScreen} />
-        </MainStack.Navigator> */}
-
-        <View style={styles.container}>
-        <CommentsScreen/>
-        {/* <ProfileScreen/> */}
-          {/* <CreatePostsScreen /> */}
-          {/* <RegistrationScreen /> */}
-          {/* <LoginScreen /> */}
-          {/* <PostsScreen /> */}
+        </MainStack.Navigator>
           <StatusBar style="auto" />
-        </View>
-      </TouchableWithoutFeedback>
     </NavigationContainer>
   );
 }

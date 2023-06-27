@@ -1,12 +1,15 @@
 import { useReducer } from "react";
+import { useNavigation  } from "@react-navigation/native";
 import { initialState } from "./initialState";
 import { reducer } from "./reducer";
-import { View, Text, Image,TextInput,StyleSheet,ImageBackground,Pressable,KeyboardAvoidingView,Platform }  from "react-native"
+import { View, Text, Image,TextInput,StyleSheet,ImageBackground,Pressable,KeyboardAvoidingView,Platform,TouchableWithoutFeedback,Keyboard, }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
 import backgroundImage from "../../Images/Photo-BG.png";
 
 const RegistrationScreen = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const navigation = useNavigation();
+
 
   const handleChange = (value, index) => {
     dispatch({
@@ -28,10 +31,13 @@ const RegistrationScreen = () => {
     }
     if (state.input3.value.length > 4) {
       dispatch({ type: "UNBLUR", payload: "input3" })
-    }
+    };
+    navigation.navigate("Home")
   }
 
-  return  (<ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+  return  (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+  <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
               <View style={styles.container}>
                   <View style={styles.imageContainer}>
                     <Image
@@ -74,9 +80,13 @@ const RegistrationScreen = () => {
                     <Pressable style={styles.button} onPress={onRegister} >
                       <Text style={styles.buttonText}>Зарегистрироваться</Text>
                     </Pressable>
-                    <Text style={styles.textLink}>Уже есть аккаунт? Войти</Text>
+                    <Text style={styles.textLink}
+                    onPress={() => navigation.navigate("Login")}
+                    >Уже есть аккаунт? Войти</Text>
               </View>
-            </ImageBackground>)
+            </ImageBackground>
+            </TouchableWithoutFeedback>
+            )
 }
 const styles = StyleSheet.create({
   container: {
@@ -100,7 +110,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
 // letterSpacing: 0.01em,
     marginBottom: 32,
-    marginTop:92,
+    marginTop:54,
     color: "#212121",
   },
   input: {
@@ -118,7 +128,7 @@ const styles = StyleSheet.create({
         height: 51,
         padding:0,
         display: "flex",
-        marginTop:43,
+        marginTop:27,
         flexirection: "column",
         alignItems: "center",
         padding: 16,
