@@ -35,12 +35,15 @@ export default function App() {
         <MainStack.Navigator 
         // initialRouteName="Home"
         >
-          <MainStack.Screen
+          <MainStack.Screen 
+          options={{headerShown:false}} 
             name="Registration"
             component={RegistrationScreen}
           />
-          <MainStack.Screen name="Login" component={LoginScreen} />
-          <MainStack.Screen name="Home" component={PostsScreen} />
+          <MainStack.Screen 
+          options={{headerShown:false}}  name="Login" component={LoginScreen} />
+          <MainStack.Screen  
+          options={{headerShown:false}} name="Home" component={PostsScreen} />
         </MainStack.Navigator>
           <StatusBar style="auto" />
     </NavigationContainer>

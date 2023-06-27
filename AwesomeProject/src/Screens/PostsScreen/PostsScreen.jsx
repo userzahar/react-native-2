@@ -1,5 +1,4 @@
 import { View, Text, Image,FlatList, StyleSheet, Pressable,TouchableWithoutFeedback,Keyboard,  } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation  } from "@react-navigation/native";
 import exitImage from "../../Images/log-out.png"
 import toolBar from '../../Images/grid.png'
@@ -11,16 +10,19 @@ import userAvatar from "../../Images/default-user-avatar.png"
 
 
 const PostsScreen = () => {
-
+    const navigation = useNavigation();
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Публікації</Text>
-                <Image
-                source={exitImage}
-                    style={styles.exitIcon}
-                />
+                <Pressable  style={styles.exitButton}
+                    onPress={() => navigation.navigate("Login")}>
+                    <Image
+                    source={exitImage}
+                        style={styles.exitIcon}
+                    />
+                </Pressable>
             </View>
             <View style={styles.profileContainer} >
                 <View style={styles.imageContainer}>
@@ -76,6 +78,7 @@ const styles = StyleSheet.create({
         minWidth: 375,
         height:60,
         position:"relative",
+        top:1,
         display:"flex",
         alignItems: "center",
         paddingTop: 28,
@@ -93,10 +96,12 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#212121",
     },
-    exitIcon: {
+    exitButton:{
         position: "absolute",
         top: 28,
         right:12,
+    },
+    exitIcon: {
         width:24, height:24,
     },
     button: {

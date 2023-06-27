@@ -80,9 +80,10 @@ const RegistrationScreen = () => {
                     <Pressable style={styles.button} onPress={onRegister} >
                       <Text style={styles.buttonText}>Зареєстуватися</Text>
                     </Pressable>
-                    <Text style={styles.textLink}
+                    <Text style={styles.textLink}>Вже є акаунт? <Text 
+                    style={{textDecorationLine:"underline"}}
                     onPress={() => navigation.navigate("Login")}
-                    >Вже є акаунт? Увійти</Text>
+                    >Увійти</Text></Text>
               </View>
         </TouchableWithoutFeedback>
       </ImageBackground>
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
-color: "#1B4371",
+    color: "#1B4371",
   },
   ImageBackground: {
     position: "relative",

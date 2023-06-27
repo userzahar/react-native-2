@@ -62,9 +62,10 @@ const LoginScreen = () => {
                 <Pressable style={styles.button} onPress={onLogin}>
                   <Text style={styles.buttonText}>Увійти</Text>
                 </Pressable>
-                <Text style={styles.textLink}
+                <Text style={styles.textLink}>Немає акаунту? <Text 
+                style={{textDecorationLine:"underline"}}
                 onPress={() => navigation.navigate("Registration")}
-                >Немає акаунту? Зареєструватися</Text>
+                >Зареєструватися</Text></Text>
             </View>
       </TouchableWithoutFeedback>
     </ImageBackground>
