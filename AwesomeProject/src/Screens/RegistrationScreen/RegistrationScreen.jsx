@@ -36,8 +36,8 @@ const RegistrationScreen = () => {
   }
 
   return  (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+    <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.container}>
                   <View style={styles.imageContainer}>
                     <Image
@@ -48,7 +48,7 @@ const RegistrationScreen = () => {
                     </Pressable>
                   </View>
                   
-                      <Text style={styles.title}>Регистрация</Text>
+                      <Text style={styles.title}>Реєстрація</Text>
                       <KeyboardAvoidingView style={styles.containerWidth} behavior={Platform.OS == "ios" ? "padding" : "height"}>   
                             <TextInput  type="text" name="input1"
                                         style={{ borderColor: state.input1.borderColor, ...styles.input }}
@@ -75,17 +75,17 @@ const RegistrationScreen = () => {
                                           value={state.input3.value}  
                               />
                           </KeyboardAvoidingView>
-                          <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показать</Text>
+                          <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показати</Text>
                       </View>
                     <Pressable style={styles.button} onPress={onRegister} >
-                      <Text style={styles.buttonText}>Зарегистрироваться</Text>
+                      <Text style={styles.buttonText}>Зареєстуватися</Text>
                     </Pressable>
                     <Text style={styles.textLink}
                     onPress={() => navigation.navigate("Login")}
-                    >Уже есть аккаунт? Войти</Text>
+                    >Вже є акаунт? Увійти</Text>
               </View>
+        </TouchableWithoutFeedback>
       </ImageBackground>
-    </TouchableWithoutFeedback>
             )
 }
 const styles = StyleSheet.create({

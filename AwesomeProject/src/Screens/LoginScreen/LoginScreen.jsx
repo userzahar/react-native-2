@@ -34,10 +34,10 @@ const LoginScreen = () => {
 
 
   return (
-  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-  <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+    <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-                <Text style={styles.title}>Вход</Text>
+                <Text style={styles.title}>Увійти</Text>
                     <KeyboardAvoidingView style={styles.containerWidth} behavior={Platform.OS == "ios" ? "padding" : "height"}>
                         <TextInput type="mail"
                                     style={{ borderColor: state.input1.borderColor, ...styles.input }}
@@ -57,17 +57,17 @@ const LoginScreen = () => {
                                         value={state.input2.value}
                             />
                         </KeyboardAvoidingView>
-                        <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показать</Text>
+                        <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показати</Text>
                     </View>
                 <Pressable style={styles.button} onPress={onLogin}>
-                  <Text style={styles.buttonText}>Войти</Text>
+                  <Text style={styles.buttonText}>Увійти</Text>
                 </Pressable>
                 <Text style={styles.textLink}
                 onPress={() => navigation.navigate("Registration")}
-                >Нет аккаунта? Зарегистрироваться</Text>
+                >Немає акаунту? Зареєструватися</Text>
             </View>
+      </TouchableWithoutFeedback>
     </ImageBackground>
-    </TouchableWithoutFeedback>
     )
 }
 const styles = StyleSheet.create({

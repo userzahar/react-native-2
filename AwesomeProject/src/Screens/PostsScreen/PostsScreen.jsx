@@ -16,7 +16,7 @@ const PostsScreen = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Публикации</Text>
+                <Text style={styles.title}>Публікації</Text>
                 <Image
                 source={exitImage}
                     style={styles.exitIcon}
