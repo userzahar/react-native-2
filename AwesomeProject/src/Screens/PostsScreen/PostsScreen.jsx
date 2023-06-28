@@ -1,27 +1,71 @@
-import { View, Text, Image,FlatList, StyleSheet, Pressable,TouchableWithoutFeedback,Keyboard,  } from "react-native";
+import { View, Text, Image,ScrollView, StyleSheet, Pressable,TouchableWithoutFeedback,Keyboard,  } from "react-native";
 import { useNavigation  } from "@react-navigation/native";
+
 import exitImage from "../../Images/log-out.png"
-import toolBar from '../../Images/grid.png'
-import userImg from '../../Images/user.png'
-import addPostImage from "../../Images/Union.png"
 import userAvatar from "../../Images/default-user-avatar.png"
+import comment from "../../Images/comment.png";
+import like from "../../Images/like.png";
+import locationIcon from "../../Images/locationIcon.png";
+import ContentBlock from "../../Images/ContentBlock.png";
+import zahid from "../../Images/zahid.png";
+import italy from "../../Images/italy.png";
+
+const POSTS = [
+    {
+        id: "45kaassd6-j54k-4jth",
+        image: zahid,
+        title:"Ліс",
+        like:"153",
+        comments:"8",
+        location:"Ukraine",
+      },
+      {
+        id: "45k6-asadj5jl4k-4jsadath",
+        image: ContentBlock,
+        title:"Захід",
+        like:"200",
+        comments:"3",
+        location:"Ukraine",
+      },
+      {
+        id: "45k6-j54k-4sdhkasafjth",
+        image: italy,
+        title:"Старий будиночок у Венеції",
+        like:"200",
+        comments:"50",
+        location:"Italy",
+      },
+      {
+        id: "45k6-j54k-j4sdasafjth",
+        image: italy,
+        title:"Старий будиночок у Венеції",
+        like:"200",
+        comments:"50",
+        location:"Italy",
+      },
+      {
+        id: "45k6-j54kh-4sdasafjth",
+        image: italy,
+        title:"Старий будиночок у Венеції",
+        like:"200",
+        comments:"50",
+        location:"Italy",
+      },
+      {
+        id: "45k6-j5g4k-4sdasafjth",
+        image: italy,
+        title:"Старий будиночок у Венеції",
+        like:"200",
+        comments:"50",
+        location:"Italy",
+      },
+];
 
 
 const PostsScreen = () => {
-    const navigation = useNavigation();
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Публікації</Text>
-                <Pressable  style={styles.exitButton}
-                    onPress={() => navigation.navigate("Login")}>
-                    <Image
-                    source={exitImage}
-                        style={styles.exitIcon}
-                    />
-                </Pressable>
-            </View>
             <View style={styles.profileContainer} >
                 <View style={styles.imageContainer}>
                     <Image
@@ -33,30 +77,37 @@ const PostsScreen = () => {
                         <Text>email@example.com</Text>
                     </View>
             </View>
-            <FlatList />
+            <ScrollView vertical>
+                {POSTS.map((data) => {
+                    return (
+                    <View key={data.id} style={{marginBottom:32}}>
+                        <View style={{marginBottom:8}}>
+                            <Image source={data.image} style={{marginBottom:8}} />
+                            <Text>{data.title}</Text>     
+                        </View>
+                        <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between",}}>
+                            <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
+                                    <View style={{display:"flex", flexDirection:"row"}}>
+                                        <Image source={comment} style={{width:24,height:24,marginRight:6,}}/>
+                                        <Text>{data.comments}</Text>
+                                    </View>
+                                    <View style={{display:"flex", flexDirection:"row"}}>
+                                        <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
+                                        <Text>{data.like}</Text>
+                            </View>
+                        </View>
+                            <View style={{display:"flex", flexDirection:"row"}}>
+                                <Image source={locationIcon} style={{width:24,height:24,marginRight:6,}}/>
+                                <Text>{data.location}</Text>
+                            </View>
+                        </View>
+                    </View>
+                    )
+                    }
+                )}
+            </ScrollView>
 
-            <View style={styles.footer}>
-                <Pressable>
-                    <Image
-                        source={toolBar}
-                        style={{width:24, height:24}}
-                    />
-                </Pressable>
-                <Pressable style={styles.button}
-                // onPress={() => navigation.navigate("CreatePost")}
-                >
-                    <Image
-                    source={addPostImage}
-                        style={{width:13, height:13}}
-                    />
-                </Pressable>
-                <Pressable>
-                        <Image
-                    source={userImg}
-                        style={{width:24, height:24}}
-                    />
-                </Pressable>
-            </View>
+
         </View>
     </TouchableWithoutFeedback>    
 )
@@ -122,6 +173,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems:"center",
         paddingTop: 32,  
+        paddingBottom:32,
     },
     imageContainer: {
         backgroundColor: "#F6F6F6",

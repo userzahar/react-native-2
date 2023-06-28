@@ -34,7 +34,7 @@ const POSTS = [
         comments:"50",
         location:"Italy",
       },
-]
+];
 
 
 const ProfileScreen = ()=>{

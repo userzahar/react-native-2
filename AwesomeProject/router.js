@@ -1,7 +1,14 @@
 import React from "react";
+import { View,StyleSheet, Pressable }  from "react-native"
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+// icons
+import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import CommentsScreen from "./src/Screens/CommentsScreen/CommentsScreen";
 import CreatePostsScreen from "./src/Screens/CreatePostsScreen/CreatePostsScreen";
@@ -18,6 +25,7 @@ const MainTab = createBottomTabNavigator();
 
 
 const useRoute = (isAuth)=>{
+
     if(!isAuth){
         return (
           <MainStack.Navigator>
@@ -34,12 +42,97 @@ const useRoute = (isAuth)=>{
         )
     }
     return (
-      <MainTab.Navigator>
-        <MainTab.Screen options={{headerShown:false}} name="Home" component={PostsScreen}/>
-        <MainTab.Screen options={{headerShown:false}} name="CreatePostsScreen" component={CreatePostsScreen}/>
-        <MainTab.Screen options={{headerShown:false}} name="ProfileScreen" component={ProfileScreen}/>
+      <MainTab.Navigator screenOptions={{
+        tabBarShowLabel:false,
+        tabBarStyle:{
+            display:"flex",
+            justifyContent: "center", 
+            height:83,
+    }
+      }}>
+        <MainTab.Screen 
+            options={{ 
+            headerTitleAlign:"center",
+            headerTitleStyle: {
+                width:97,
+                fontFamily: 'Roboto',
+                fontStyle: "normal",
+                fontWeight: 500,
+                fontSize: 17,
+                lineHeight: 22,
+                letterSpacing: -0.408,
+                textAlign: "center",
+                color: "#212121",
+            },
+            headerRight:(
+                { focused, color, size })=>{
+                return (
+                    <Pressable style={styles.headerButton}>
+                        <Ionicons name="exit-outline" size={24} color="rgba(33, 33, 33, 0.8)" />
+                    </Pressable>
+                    )},
+            headerTitle:"Публікації", 
+            tabBarIcon:(
+                { focused, color, size })=>{
+                    if(!focused){
+                        return <AntDesign name="appstore-o" size={24} color="rgba(33, 33, 33, 0.8)" />
+                    }
+                return (
+                    <View style={styles.buttonContainer}>
+                        <AntDesign name="appstore-o" size={24} color="white" />
+                    </View>
+                    )}}} 
+                name="Home" 
+                component={PostsScreen}/>
+        <MainTab.Screen
+             options={{
+                // headerShown:false,
+                headerTitle:"Створити публікацію", 
+                tabBarIcon:(
+                { focused, color, size })=>{
+                    if(!focused){
+                        return <Feather name="plus" size={24} color="rgba(33, 33, 33, 0.8)" />
+                    }
+                return (
+                        <View style={styles.buttonContainer}>
+                            <Feather name="plus" size={24} color="white" />
+                        </View>
+                        )}}} 
+                name="CreatePostsScreen" 
+                component={CreatePostsScreen}/>
+        <MainTab.Screen 
+            options={{
+                headerShown:false, 
+            tabBarIcon:({ focused, color, size })=>{
+                if(!focused){
+                    return <Feather name="user" size={24} color="rgba(33, 33, 33, 0.8)" />
+                }
+            return (
+                    <View style={styles.buttonContainer}>
+                        <Feather name="user" size={24} color="white" />
+                    </View>
+                    )}}}  
+            name="ProfileScreen" 
+            component={ProfileScreen}/>
       </MainTab.Navigator>
     )
 }
-  
+
+const styles = StyleSheet.create({
+    buttonContainer:{
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        borderRadius:100,
+        backgroundColor:"#FF6C00",
+        width:70,
+        height:40,
+    },
+    headerButton:{
+        paddingRight:10
+    }
+})
+
+
 export default useRoute;
+
