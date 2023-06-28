@@ -86,7 +86,9 @@ const useRoute = (isAuth)=>{
                 headerLeft:(
                     { focused, color, size })=>{
                     return (
-                        <Pressable style={{paddingLeft:16,}}>
+                        <Pressable style={{paddingLeft:16,}} onPress={()=>{
+                            alert("Як створити кнопку назад?")
+                        }}>
                             <AntDesign name="arrowleft" size={24} color="#212121" />
                         </Pressable>
                         )},
