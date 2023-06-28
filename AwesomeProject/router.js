@@ -1,6 +1,8 @@
 import React from "react";
 import { View,StyleSheet, Pressable }  from "react-native"
 
+
+
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -20,12 +22,12 @@ import ProfileScreen  from "./src/Screens/ProfileScreen/ProfileScreen";
 
 
 
+
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 
 const useRoute = (isAuth)=>{
-
     if(!isAuth){
         return (
           <MainStack.Navigator>
@@ -53,17 +55,9 @@ const useRoute = (isAuth)=>{
         <MainTab.Screen 
             options={{ 
             headerTitleAlign:"center",
-            headerTitleStyle: {
-                width:97,
-                fontFamily: 'Roboto',
-                fontStyle: "normal",
-                fontWeight: 500,
-                fontSize: 17,
-                lineHeight: 22,
-                letterSpacing: -0.408,
-                textAlign: "center",
-                color: "#212121",
-            },
+            headerTitleStyle: styles.headerTitleStyle,
+            headerTitleContainerStyle:{height:44, paddingTop:10},
+            headerTitle:"Публікації", 
             headerRight:(
                 { focused, color, size })=>{
                 return (
@@ -71,7 +65,6 @@ const useRoute = (isAuth)=>{
                         <Ionicons name="exit-outline" size={24} color="rgba(33, 33, 33, 0.8)" />
                     </Pressable>
                     )},
-            headerTitle:"Публікації", 
             tabBarIcon:(
                 { focused, color, size })=>{
                     if(!focused){
@@ -86,12 +79,23 @@ const useRoute = (isAuth)=>{
                 component={PostsScreen}/>
         <MainTab.Screen
              options={{
-                // headerShown:false,
+                headerTitleAlign:"center",
+                headerTitleStyle: styles.headerTitleStyle,
+                headerTitleContainerStyle:{height:44,paddingTop:10},
                 headerTitle:"Створити публікацію", 
+                headerLeft:(
+                    { focused, color, size })=>{
+                    return (
+                        <Pressable style={{paddingLeft:16,}}>
+                            <AntDesign name="arrowleft" size={24} color="#212121" />
+                        </Pressable>
+                        )},
+                        tabBarStyle:{vision:"hidden",position:"absolute",top:-999},
                 tabBarIcon:(
                 { focused, color, size })=>{
                     if(!focused){
                         return <Feather name="plus" size={24} color="rgba(33, 33, 33, 0.8)" />
+                            
                     }
                 return (
                         <View style={styles.buttonContainer}>
@@ -130,7 +134,19 @@ const styles = StyleSheet.create({
     },
     headerButton:{
         paddingRight:10
-    }
+    },
+    headerTitleStyle: {
+        width:"100%",
+        fontFamily: 'Roboto',
+        fontStyle: "normal",
+        fontWeight: 500,
+        fontSize: 17,
+        lineHeight: 22,
+        letterSpacing: -0.408,
+        textAlign: "center",
+        color: "#212121",
+        
+    },
 })
 
 

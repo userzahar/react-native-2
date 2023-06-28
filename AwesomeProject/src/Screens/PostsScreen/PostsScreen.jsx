@@ -1,4 +1,4 @@
-import { View, Text, Image,ScrollView, StyleSheet, Pressable,TouchableWithoutFeedback,Keyboard,  } from "react-native";
+import { View, Text, Image,ScrollView, StyleSheet, FlatList,TouchableWithoutFeedback,Keyboard,  } from "react-native";
 import { useNavigation  } from "@react-navigation/native";
 
 import exitImage from "../../Images/log-out.png"
@@ -106,8 +106,6 @@ const PostsScreen = () => {
                     }
                 )}
             </ScrollView>
-
-
         </View>
     </TouchableWithoutFeedback>    
 )
@@ -172,7 +170,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems:"center",
-        paddingTop: 32,  
+        paddingTop: 16,  
         paddingBottom:32,
     },
     imageContainer: {
