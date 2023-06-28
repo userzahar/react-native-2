@@ -61,7 +61,9 @@ const useRoute = (isAuth)=>{
             headerRight:(
                 { focused, color, size })=>{
                 return (
-                    <Pressable style={styles.headerButton}>
+                    <Pressable style={styles.headerButton} onPress={()=>{
+                        alert("Чому скролл деколи заїдає? І як від цього позбутись?")
+                    }}>
                         <Ionicons name="exit-outline" size={24} color="rgba(33, 33, 33, 0.8)" />
                     </Pressable>
                     )},
