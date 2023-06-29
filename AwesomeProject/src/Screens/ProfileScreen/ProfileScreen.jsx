@@ -1,6 +1,8 @@
 
 import { View, Text, Image,ScrollView,StyleSheet,ImageBackground,Pressable,TouchableWithoutFeedback,Keyboard, }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
+import { useNavigation } from "@react-navigation/native";
+
 import backgroundImage from "../../Images/Photo-BG.png";
 import ContentBlock from "../../Images/ContentBlock.png";
 import zahid from "../../Images/zahid.png";
@@ -37,8 +39,10 @@ const POSTS = [
 ];
 
 
-const ProfileScreen = ()=>{
-    return (
+const ProfileScreen =  ()=>{
+  const navigator = useNavigation();
+
+    return ( 
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
     <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
         <View style={styles.container}>
@@ -61,10 +65,10 @@ const ProfileScreen = ()=>{
                         </View>
                         <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between",}}>
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
-                                    <View style={{display:"flex", flexDirection:"row"}}>
+                                    <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
                                         <Image source={comment} style={{width:24,height:24,marginRight:6,}}/>
                                         <Text>{data.comments}</Text>
-                                    </View>
+                                    </Pressable>
                                     <View style={{display:"flex", flexDirection:"row"}}>
                                         <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
                                         <Text>{data.like}</Text>

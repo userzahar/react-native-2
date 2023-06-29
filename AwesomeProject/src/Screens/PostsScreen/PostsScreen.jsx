@@ -9,6 +9,7 @@ import locationIcon from "../../Images/locationIcon.png";
 import ContentBlock from "../../Images/ContentBlock.png";
 import zahid from "../../Images/zahid.png";
 import italy from "../../Images/italy.png";
+import { Pressable } from "react-native";
 
 const POSTS = [
     {
@@ -63,6 +64,7 @@ const POSTS = [
 
 
 const PostsScreen = () => {
+    const navigator = useNavigation();
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
@@ -87,10 +89,10 @@ const PostsScreen = () => {
                         </View>
                         <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between",}}>
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
-                                    <View style={{display:"flex", flexDirection:"row"}}>
-                                        <Image source={comment} style={{width:24,height:24,marginRight:6,}}/>
+                                    <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
+                                        <Image source={comment} style={{width:24,height:24,marginRight:6,}} />
                                         <Text>{data.comments}</Text>
-                                    </View>
+                                    </Pressable>
                                     <View style={{display:"flex", flexDirection:"row"}}>
                                         <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
                                         <Text>{data.like}</Text>

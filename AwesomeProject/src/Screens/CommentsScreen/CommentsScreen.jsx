@@ -1,4 +1,7 @@
 import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAvoidingView,ScrollView,TouchableWithoutFeedback,Keyboard,  } from "react-native";
+import {  useRoute } from '@react-navigation/native';
+
+
 import ContentBlock from "../../Images/ContentBlock.png";
 import arrowLeft from "../../Images/arrow-left.png";
 import avatar from "../../Images/avatar.png";
@@ -37,20 +40,14 @@ const COURSES = [
 
 
 const CommentsScreen = ()=>{
+    const { params: { data } } = useRoute();
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View  style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>Коментарі</Text>
-                    <Image
-                        source={arrowLeft}
-                            style={styles.arrowLeft}
-                        />
-                </View>
-
                 <View style={styles.imageContainer}>
                     <Image
-                        source={ContentBlock}
+                        source={data.image}
                         // style={}
                     />
                 </View>
@@ -181,7 +178,7 @@ const styles = StyleSheet.create({
         paddingTop:7,
     },
     imageContainer:{
-        paddingTop: 32,
+        paddingTop: 16,
         paddingBottom:32,
     },
     messageListItem:{

@@ -1,6 +1,6 @@
 import React from "react";
 import { View,StyleSheet, Pressable }  from "react-native"
-
+import { useNavigation } from '@react-navigation/native';
 
 
 import { createStackNavigator } from "@react-navigation/stack";
@@ -28,6 +28,8 @@ const MainTab = createBottomTabNavigator();
 
 
 const useRoute = (isAuth)=>{
+    // const navigation = useNavigation();
+
     if(!isAuth){
         return (
           <MainStack.Navigator>
@@ -88,9 +90,11 @@ const useRoute = (isAuth)=>{
                 headerLeft:(
                     { focused, color, size })=>{
                     return (
-                        <Pressable style={{paddingLeft:16,}} onPress={()=>{
-                            alert("Як створити кнопку назад?")
-                        }}>
+                        <Pressable style={{paddingLeft:16,}} 
+                        // onPress={()=>{
+                        //     navigation.goBack();
+                        // }}
+                        >
                             <AntDesign name="arrowleft" size={24} color="#212121" />
                         </Pressable>
                         )},
@@ -122,6 +126,28 @@ const useRoute = (isAuth)=>{
                     )}}}  
             name="ProfileScreen" 
             component={ProfileScreen}/>
+
+        <MainTab.Screen 
+                options={{
+                    headerTitleAlign:"center",
+                    headerTitleStyle: styles.headerTitleStyle,
+                    headerTitleContainerStyle:{height:44,paddingTop:10},
+                    headerTitle:"Коментарі",
+                    headerLeft:(
+                        { focused, color, size })=>{
+                        return (
+                            <Pressable style={{paddingLeft:16,}} onPress={()=>{
+                                alert("Як створити кнопку назад?")
+                            }}>
+                                <AntDesign name="arrowleft" size={24} color="#212121" />
+                            </Pressable>
+                            )},
+                            tabBarStyle:{vision:"hidden",position:"absolute",top:-999},                     
+                    tabBarIcon:()=>null,
+                    tabBarButton:()=><View style={{vision:"hidden",position:"absolute", top:-999, width:-1, height:-1}}></View>
+                }}  
+            name="Commentary" 
+            component={CommentsScreen}/>
       </MainTab.Navigator>
     )
 }
