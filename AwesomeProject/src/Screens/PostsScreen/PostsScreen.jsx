@@ -98,10 +98,10 @@ const PostsScreen = () => {
                                         <Text>{data.like}</Text>
                             </View>
                         </View>
-                            <View style={{display:"flex", flexDirection:"row"}}>
+                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Map")}>
                                 <Image source={locationIcon} style={{width:24,height:24,marginRight:6,}}/>
                                 <Text>{data.location}</Text>
-                            </View>
+                            </Pressable>
                         </View>
                     </View>
                     )

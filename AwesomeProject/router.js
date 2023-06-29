@@ -18,6 +18,7 @@ import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScr
 import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
 import ProfileScreen  from "./src/Screens/ProfileScreen/ProfileScreen";
+import MapScreen from "./src/Screens/MapScreen/MapScreen";
 
 
 
@@ -148,6 +149,27 @@ const useRoute = (isAuth)=>{
                 }}  
             name="Commentary" 
             component={CommentsScreen}/>
+                    <MainTab.Screen 
+                options={{
+                    headerTitleAlign:"center",
+                    headerTitleStyle: styles.headerTitleStyle,
+                    headerTitleContainerStyle:{height:44,paddingTop:10},
+                    headerTitle:"Карта",
+                    headerLeft:(
+                        { focused, color, size })=>{
+                        return (
+                            <Pressable style={{paddingLeft:16,}} onPress={()=>{
+                                alert("Як створити кнопку назад?")
+                            }}>
+                                <AntDesign name="arrowleft" size={24} color="#212121" />
+                            </Pressable>
+                            )},
+                            tabBarStyle:{vision:"hidden",position:"absolute",top:-999},                     
+                    tabBarIcon:()=>null,
+                    tabBarButton:()=><View style={{vision:"hidden",position:"absolute", top:-999, width:-1, height:-1}}></View>
+                }}  
+            name="Map" 
+            component={MapScreen}/>
       </MainTab.Navigator>
     )
 }
