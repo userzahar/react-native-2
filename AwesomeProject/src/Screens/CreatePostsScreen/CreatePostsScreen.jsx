@@ -1,29 +1,122 @@
-import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard,   } from "react-native";
+import { View, Text, Image,TextInput, StyleSheet,TouchableOpacity, Pressable,Platform, KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard,   } from "react-native";
+import React, { useState,useEffect, useRef } from "react";
+import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
+import Geocoder from 'react-native-geocoding';
+import * as Location from "expo-location";
+
+
+
 import trashIcon from "../../Images/trashIcon.png";
 import cameraBlack from "../../Images/camera-black.png"
 import cameraWhite from "../../Images/camera-white.png"
 import locationIcon from "../../Images/locationIcon.png"
 
 const CreatePostsScreen = () => {
+    const [location, setLocation] = useState(null);
+    const [locationName, setLocationName]= useState("");
+    const[photoName, setPhotoName]=useState('');
+    const [hasPermission, setHasPermission] = useState(null);
+    const [cameraRef, setCameraRef] = useState(null);
+    const [openCamera, setOpenCamera] = useState(false);
+    const [type, setType] = useState(Camera.Constants.Type.back);
+
+    useEffect(() => {
+        (async () => {
+          const { status } = await Camera.requestPermissionsAsync();
+          await MediaLibrary.requestPermissionsAsync();
+    
+          setHasPermission(status === "granted");
+        })();
+      }, []);
+    
+      if (hasPermission === null) {
+        return <View />;
+      }
+      if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
+
+
+    Geocoder.init("AIzaSyAkbk-S9ZRmDakrniK5xVAdivngkHiNhkA");
+    // AIzaSyAkbk-S9ZRmDakrniK5xVAdivngkHiNhkA
+    const locationRequest =()=>{
+        {
+            (async () => {
+              let { status } = await Location.requestForegroundPermissionsAsync();
+              if (status !== "granted") {
+                alert("Перейдіть у налаштування дозволів і налаштуйте доступ до геолокації");
+              }
+        
+              let location = await Location.getCurrentPositionAsync({});
+              const coords = {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              };
+
+              const locationNameFree  = await Geocoder.from(coords)
+            
+              setLocation(coords);
+              const trimmedAddress = await locationNameFree.results[0].formatted_address.split(" ").slice(2).join(" ");
+              setLocationName(trimmedAddress)
+            })();
+          }
+    }
+    const reset = ()=>{
+        setLocationName('')
+        setPhotoName("")
+    }
+
     return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
+            {openCamera && 
+            <Camera
+                style={styles.imageContainer}
+                type={type}
+                ref={setCameraRef}
+            >
+                <View style={styles.photoView}>
+                <TouchableOpacity
+                    style={styles.flipContainer}
+                    onPress={() => {
+                    setType(
+                        type === Camera.Constants.Type.back
+                        ? Camera.Constants.Type.front
+                        : Camera.Constants.Type.back
+                    );
+                    }}
+                >
+                    <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}>
+                    {" "}
+                    Flip{" "}
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={async () => {
+                    if (cameraRef) {
+                        const { uri } = await cameraRef.takePictureAsync();
+                        await MediaLibrary.createAssetAsync(uri);
+                    }
+                    }}
+                >
+                    <View style={styles.takePhotoOut}>
+                    <View style={styles.takePhotoInner}></View>
+                    </View>
+                </TouchableOpacity>
+                </View>
+            </Camera>}
             <View style={styles.profileContainer}>
                 <View style={styles.imageContainer}>
                     <View style={styles.addImageContainer}>
-                        <Pressable style={styles.photoCircle}>
+                        <Pressable style={styles.photoCircle}
+                            onPress={()=>setOpenCamera(true)}>
                             <Image
                                 source={cameraBlack}
                                 style={styles.trashIcon}
                             />
-                            {/* <Image
-                                source={cameraWhite}
-                                style={styles.trashIcon}
-                            /> */}
                         </Pressable>
-                    {/*!!! <Image
-                        source={postImage}
-                        style={styles.image} /> */}
                     </View>
                     <Text style={styles.imageText} >Завантажте фото</Text>
                 </View>
@@ -31,20 +124,23 @@ const CreatePostsScreen = () => {
                 <View style={styles.inputContainer}>
                     <KeyboardAvoidingView style={{...styles.containerWidth}} behavior={Platform.OS == "ios" ? "padding" : "height"}>
                         <TextInput type="text"
+                            onChangeText={setPhotoName}
                             style={styles.input}
+                            value={photoName}
                                     // onBlur={() => dispatch({ type: "BLUR", payload: "input1" })}
-                                    // value={state.input1.value}
                                     // onChangeText={(value) => handleChange(value, "input1")}
                                     placeholder="Назва..."
               />
                     </KeyboardAvoidingView>
-                    <KeyboardAvoidingView   style={styles.containerWidth}
+                    <KeyboardAvoidingView  style={styles.containerWidth}
                         behavior={Platform.OS == "ios" ? "padding" : "height"}>
                         <Image
                                 source={locationIcon}
                                 style={styles.locationIcon}
                             />
                         <TextInput type="text"
+                            onPressIn={locationRequest}
+                            value={locationName}
                             style={{paddingLeft:28,...styles.input}}
                                     // onBlur={() => dispatch({ type: "BLUR", payload: "input1" })}
                                     // value={state.input1.value}
@@ -62,7 +158,7 @@ const CreatePostsScreen = () => {
 
 
             <View style={styles.footer}>
-                    <Pressable style={styles.trashButton}>
+                    <Pressable style={styles.trashButton} onPress={reset}>
                         <Image
                             source={trashIcon}
                             style={styles.trashIcon}

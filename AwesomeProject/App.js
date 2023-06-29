@@ -12,10 +12,11 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  
+
   const routes = useRoute({})
 
   return (
+    
     <NavigationContainer backBehavior="history">
           {routes}
           <StatusBar style="auto" />

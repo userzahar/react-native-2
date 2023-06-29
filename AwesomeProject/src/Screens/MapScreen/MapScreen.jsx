@@ -5,7 +5,7 @@ import * as Location from "expo-location";
 
 const MapScreen = () => {
   const [location, setLocation] = useState(null);
-
+  
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
