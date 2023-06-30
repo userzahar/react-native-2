@@ -1,5 +1,5 @@
 import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAvoidingView,ScrollView,TouchableWithoutFeedback,Keyboard,  } from "react-native";
-import {  useRoute } from '@react-navigation/native';
+import {  useNavigation, useRoute } from '@react-navigation/native';
 
 
 import ContentBlock from "../../Images/ContentBlock.png";
@@ -41,10 +41,20 @@ const COURSES = [
 
 const CommentsScreen = ()=>{
     const { params: { data } } = useRoute();
-
+    const navigation = useNavigation();
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View  style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Коментарі</Text>
+                    <Pressable 
+                        style={styles.arrowLeft}
+                        onPress={()=>navigation.navigate("Home")}>
+                        <Image
+                            source={arrowLeft}
+                            />
+                    </Pressable>
+                </View>                
                 <View style={styles.imageContainer}>
                     <Image
                         source={data.image}

@@ -57,19 +57,7 @@ const useRoute = (isAuth)=>{
       }}>
         <MainTab.Screen 
             options={{ 
-            headerTitleAlign:"center",
-            headerTitleStyle: styles.headerTitleStyle,
-            headerTitleContainerStyle:{height:44, paddingTop:10},
-            headerTitle:"Публікації", 
-            headerRight:(
-                { focused, color, size })=>{
-                return (
-                    <Pressable style={styles.headerButton} onPress={()=>{
-                        alert("Чому скролл деколи заїдає? І як від цього позбутись?")
-                    }}>
-                        <Ionicons name="exit-outline" size={24} color="rgba(33, 33, 33, 0.8)" />
-                    </Pressable>
-                    )},
+            headerShown:false,
             tabBarIcon:(
                 { focused, color, size })=>{
                     if(!focused){
@@ -84,22 +72,8 @@ const useRoute = (isAuth)=>{
                 component={PostsScreen}/>
         <MainTab.Screen
              options={{
-                headerTitleAlign:"center",
-                headerTitleStyle: styles.headerTitleStyle,
-                headerTitleContainerStyle:{height:44,paddingTop:10},
-                headerTitle:"Створити публікацію", 
-                headerLeft:(
-                    { focused, color, size })=>{
-                    return (
-                        <Pressable style={{paddingLeft:16,}} 
-                        // onPress={()=>{
-                        //     navigation.goBack();
-                        // }}
-                        >
-                            <AntDesign name="arrowleft" size={24} color="#212121" />
-                        </Pressable>
-                        )},
-                        tabBarStyle:{vision:"hidden",position:"absolute",top:-999},
+                headerShown:false,
+                tabBarStyle:{vision:"hidden",position:"absolute",top:-999},
                 tabBarIcon:(
                 { focused, color, size })=>{
                     if(!focused){
@@ -130,19 +104,7 @@ const useRoute = (isAuth)=>{
 
         <MainTab.Screen 
                 options={{
-                    headerTitleAlign:"center",
-                    headerTitleStyle: styles.headerTitleStyle,
-                    headerTitleContainerStyle:{height:44,paddingTop:10},
-                    headerTitle:"Коментарі",
-                    headerLeft:(
-                        { focused, color, size })=>{
-                        return (
-                            <Pressable style={{paddingLeft:16,}} onPress={()=>{
-                                alert("Як створити кнопку назад?")
-                            }}>
-                                <AntDesign name="arrowleft" size={24} color="#212121" />
-                            </Pressable>
-                            )},
+                    headerShown:false,
                             tabBarStyle:{vision:"hidden",position:"absolute",top:-999},                     
                     tabBarIcon:()=>null,
                     tabBarButton:()=><View style={{vision:"hidden",position:"absolute", top:-999, width:-1, height:-1}}></View>
@@ -151,10 +113,7 @@ const useRoute = (isAuth)=>{
             component={CommentsScreen}/>
                     <MainTab.Screen 
                 options={{
-                    headerTitleAlign:"center",
-                    headerTitleStyle: styles.headerTitleStyle,
-                    headerTitleContainerStyle:{height:44,paddingTop:10},
-                    headerTitle:"Карта",
+                    headerShown:false,
                     headerLeft:(
                         { focused, color, size })=>{
                         return (

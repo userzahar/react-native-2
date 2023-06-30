@@ -68,6 +68,16 @@ const PostsScreen = () => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.title}>Публікації</Text>
+                <Pressable  style={styles.exitButton}
+                    onPress={() => alert("у майбутньому буде розлогінювати")}>
+                    <Image
+                    source={exitImage}
+                        style={styles.exitIcon}
+                    />
+                </Pressable>
+            </View>
             <View style={styles.profileContainer} >
                 <View style={styles.imageContainer}>
                     <Image
