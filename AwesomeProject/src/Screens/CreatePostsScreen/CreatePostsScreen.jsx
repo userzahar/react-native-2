@@ -2,7 +2,7 @@ import { View, Text, Image,TextInput, StyleSheet,TouchableOpacity, Pressable,Pla
 import React, { useState,useEffect, useRef } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import Geocoder from 'react-native-geocoding';
+
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
 
@@ -30,8 +30,6 @@ const CreatePostsScreen = () => {
     }
 
 
-
-
     useEffect(() => {
         (async () => {
           const { status } = await Camera.requestPermissionsAsync();
@@ -50,11 +48,7 @@ const CreatePostsScreen = () => {
               longitude: location.coords.longitude,
             };
 
-            const locationNameFree  = await Geocoder.from(coords)
-          
             setLocation(coords);
-            const trimmedAddress = await locationNameFree.results[0].formatted_address.split(" ").slice(2).join(" ").split(" ").slice(0, -1).join(" ");
-            setLocationName(trimmedAddress)
           })();
     }, []);      
       if (hasPermission === null) {
@@ -63,16 +57,11 @@ const CreatePostsScreen = () => {
       if (hasPermission === false) {
         return <Text>No access to camera</Text>;
     }
-    
-
-
-
-
-    Geocoder.init("AIzaSyAkbk-S9ZRmDakrniK5xVAdivngkHiNhkA");
-    // AIzaSyAkbk-S9ZRmDakrniK5xVAdivngkHiNhkA
- 
-
-
+    const onPublication=()=>{
+        console.log({
+            photoName,location,locationName,photo
+        })
+    }
 
     const reset = ()=>{
         setPhotoName("")
@@ -151,19 +140,16 @@ const CreatePostsScreen = () => {
                             />
                         <TextInput type="text"
                             value={locationName}
+                            onChangeText={setLocationName}
                             style={{paddingLeft:28,...styles.input, color:"#212121"}}
-                            editable={false}
-                                    // onBlur={() => dispatch({ type: "BLUR", payload: "input1" })}
-                                    // value={state.input1.value}
-                                    // onChangeText={(value) => handleChange(value, "input1")}
                                     placeholder="Місцевість..."
                         />
                     </KeyboardAvoidingView>
                     <Pressable style={styles.button}
-                        // onPress={onLogin}
+                        onPress={()=>onPublication()}
                     >
-                  <Text style={styles.buttonText}>Опубліковати</Text>
-                </Pressable>
+                        <Text style={styles.buttonText}>Опубліковати</Text>
+                    </Pressable>
                 </View>
             </View>
 
