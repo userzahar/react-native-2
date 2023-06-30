@@ -18,55 +18,65 @@ const CreatePostsScreen = () => {
     const [locationName, setLocationName]= useState("");
     const[photoName, setPhotoName]=useState('');
     const [hasPermission, setHasPermission] = useState(null);
+    const [photo,setPhoto] =useState('');
+
     const [cameraRef, setCameraRef] = useState(null);
-    const [openCamera, setOpenCamera] = useState(false);
-    const [type, setType] = useState(Camera.Constants.Type.back);
 
     const navigation = useNavigation()
+
+    const takePhoto = async ()=>{
+        const  {uri}  = await cameraRef.takePictureAsync();
+        setPhoto(uri)
+    }
+
+
+
+
     useEffect(() => {
         (async () => {
           const { status } = await Camera.requestPermissionsAsync();
           await MediaLibrary.requestPermissionsAsync();
-    
           setHasPermission(status === "granted");
         })();
-      }, []);
-    
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+              alert("Перейдіть у налаштування дозволів і налаштуйте доступ до геолокації");
+            }
+      
+            let location = await Location.getCurrentPositionAsync({});
+            const coords = {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            };
+
+            const locationNameFree  = await Geocoder.from(coords)
+          
+            setLocation(coords);
+            const trimmedAddress = await locationNameFree.results[0].formatted_address.split(" ").slice(2).join(" ").split(" ").slice(0, -1).join(" ");
+            setLocationName(trimmedAddress)
+          })();
+    }, []);      
       if (hasPermission === null) {
         return <View />;
       }
       if (hasPermission === false) {
         return <Text>No access to camera</Text>;
     }
+    
+
+
 
 
     Geocoder.init("AIzaSyAkbk-S9ZRmDakrniK5xVAdivngkHiNhkA");
     // AIzaSyAkbk-S9ZRmDakrniK5xVAdivngkHiNhkA
-    const locationRequest =()=>{
-        {
-            (async () => {
-              let { status } = await Location.requestForegroundPermissionsAsync();
-              if (status !== "granted") {
-                alert("Перейдіть у налаштування дозволів і налаштуйте доступ до геолокації");
-              }
-        
-              let location = await Location.getCurrentPositionAsync({});
-              const coords = {
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-              };
+ 
 
-              const locationNameFree  = await Geocoder.from(coords)
-            
-              setLocation(coords);
-              const trimmedAddress = await locationNameFree.results[0].formatted_address.split(" ").slice(2).join(" ");
-              setLocationName(trimmedAddress)
-            })();
-          }
-    }
+
+
     const reset = ()=>{
-        setLocationName('')
         setPhotoName("")
+        setPhoto('')
     }
 
     return (
@@ -82,54 +92,32 @@ const CreatePostsScreen = () => {
                             />
                     </Pressable>
                 </View>    
-            {openCamera && 
-            <Camera
-                style={styles.imageContainer}
-                type={type}
-                ref={setCameraRef}
-            >
-                <View style={styles.photoView}>
-                <TouchableOpacity
-                    style={styles.flipContainer}
-                    onPress={() => {
-                    setType(
-                        type === Camera.Constants.Type.back
-                        ? Camera.Constants.Type.front
-                        : Camera.Constants.Type.back
-                    );
-                    }}
-                >
-                    <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}>
-                    {" "}
-                    Flip{" "}
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={async () => {
-                    if (cameraRef) {
-                        const { uri } = await cameraRef.takePictureAsync();
-                        await MediaLibrary.createAssetAsync(uri);
-                    }
-                    }}
-                >
-                    <View style={styles.takePhotoOut}>
-                    <View style={styles.takePhotoInner}></View>
-                    </View>
-                </TouchableOpacity>
-                </View>
-            </Camera>}
+            
             <View style={styles.profileContainer}>
                 <View style={styles.imageContainer}>
-                    <View style={styles.addImageContainer}>
-                        <Pressable style={styles.photoCircle}
-                            onPress={()=>setOpenCamera(true)}>
-                            <Image
-                                source={cameraBlack}
-                                style={styles.trashIcon}
-                            />
-                        </Pressable>
-                    </View>
+                    
+            <View style={styles.addImageContainer}> 
+                        {photo.length > 0 && <View style={styles.takePhoto}>
+                            <Image style={{width:"100%",height:"100%"}} source={{uri:photo}}/>
+                        </View>}
+                        {photo.length === 0 && <Camera
+                            style={{width:"100%", height:"100%"}}
+                            type={Camera.Constants.Type.back}
+                            ref={setCameraRef}
+                        >
+                            <View style={styles.cameraButtonContainer}>
+                                <TouchableOpacity
+                                style={{...styles.photoCircle,}}
+                                    onPress={takePhoto}
+                                >
+                                    <Image
+                                                source={cameraBlack}
+                                                style={styles.trashIcon}
+                                            />
+                                </TouchableOpacity>
+                            </View>
+                        </Camera>}
+            </View>
                     <Text style={styles.imageText} >Завантажте фото</Text>
                 </View>
 
@@ -151,9 +139,9 @@ const CreatePostsScreen = () => {
                                 style={styles.locationIcon}
                             />
                         <TextInput type="text"
-                            onPressIn={locationRequest}
                             value={locationName}
-                            style={{paddingLeft:28,...styles.input}}
+                            style={{paddingLeft:28,...styles.input, color:"#212121"}}
+                            editable={false}
                                     // onBlur={() => dispatch({ type: "BLUR", payload: "input1" })}
                                     // value={state.input1.value}
                                     // onChangeText={(value) => handleChange(value, "input1")}
@@ -319,20 +307,27 @@ const styles = StyleSheet.create({
     photoCircle: {
         width: 60,
         height: 60,
-        position: "absolute",
-        top: 90,
-        left:142,
         display: "flex",
         alignItems: "center",
         justifyContent:"center",
         borderRadius:100,
-        backgroundColor:"#fff",
+        backgroundColor:"rgba(255, 255, 255, 0.3)",
     },
     locationIcon: {
         position: "absolute",
         top: 13,
         zIndex:1,
         width:24,
+    },
+    cameraButtonContainer:{
+        display:'flex',alignItems:"center",justifyContent:"center", height:"100%",
+    },
+    takePhoto:{
+        position:"absolute",
+        width:"100%",
+        height:"100%",
+        top:1,
+        zIndex:2,
     }
 });
 
