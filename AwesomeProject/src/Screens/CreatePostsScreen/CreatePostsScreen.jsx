@@ -91,17 +91,9 @@ const CreatePostsScreen = () => {
                             source={arrowLeft}
                             />
                     </Pressable>
-                </View>    
-            
-            <View style={styles.profileContainer}>
-                <View style={styles.imageContainer}>
-                    
-            <View style={styles.addImageContainer}> 
-                        {photo.length > 0 && <View style={styles.takePhoto}>
-                            <Image style={{width:"100%",height:"100%"}} source={{uri:photo}}/>
-                        </View>}
-                        {photo.length === 0 && <Camera
-                            style={{width:"100%", height:"100%"}}
+                </View>
+                {photo.length === 0 && <Camera
+                            style={{width:"100%",zIndex:1}}
                             type={Camera.Constants.Type.back}
                             ref={setCameraRef}
                         >
@@ -116,7 +108,26 @@ const CreatePostsScreen = () => {
                                             />
                                 </TouchableOpacity>
                             </View>
-                        </Camera>}
+                        </Camera>}    
+            
+            <View style={styles.profileContainer}>
+                <View style={styles.imageContainer}>
+                    
+            <View style={styles.addImageContainer}> 
+                        {photo.length > 0 && <View style={styles.takePhoto}>
+                                <TouchableOpacity
+                                    style={{...styles.photoCircle, position:"absolute",zIndex:2,top:90,left:153.5}}
+                                    onPress={()=>{
+                                        setPhoto('')
+                                    }}
+                                >
+                                <Image
+                                                source={cameraWhite}
+                                                style={styles.trashIcon}
+                                            />
+                                </TouchableOpacity>
+                            <Image style={{width:"100%",height:"100%"}} source={{uri:photo}}/>
+                        </View>}
             </View>
                     <Text style={styles.imageText} >Завантажте фото</Text>
                 </View>
