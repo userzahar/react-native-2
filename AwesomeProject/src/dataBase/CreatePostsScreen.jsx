@@ -4,10 +4,9 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import Geocoder from 'react-native-geocoding';
 import * as Location from "expo-location";
-import { useNavigation } from "@react-navigation/native";
 
 
-import arrowLeft from "../../Images/arrow-left.png";
+
 import trashIcon from "../../Images/trashIcon.png";
 import cameraBlack from "../../Images/camera-black.png"
 import cameraWhite from "../../Images/camera-white.png"
@@ -22,7 +21,6 @@ const CreatePostsScreen = () => {
     const [openCamera, setOpenCamera] = useState(false);
     const [type, setType] = useState(Camera.Constants.Type.back);
 
-    const navigation = useNavigation()
     useEffect(() => {
         (async () => {
           const { status } = await Camera.requestPermissionsAsync();
@@ -72,16 +70,6 @@ const CreatePostsScreen = () => {
     return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>Створити публікацію</Text>
-                    <Pressable 
-                        style={styles.arrowLeft}
-                        onPress={()=>navigation.navigate("Home")}>
-                        <Image
-                            source={arrowLeft}
-                            />
-                    </Pressable>
-                </View>    
             {openCamera && 
             <Camera
                 style={styles.imageContainer}
