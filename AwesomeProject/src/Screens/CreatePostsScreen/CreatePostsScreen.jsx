@@ -3,6 +3,7 @@ import React, { useState,useEffect, useRef } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 
+
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
 
@@ -13,8 +14,8 @@ import cameraBlack from "../../Images/camera-black.png"
 import cameraWhite from "../../Images/camera-white.png"
 import locationIcon from "../../Images/locationIcon.png"
 
+
 const CreatePostsScreen = () => {
-    const [location, setLocation] = useState(null);
     const [locationName, setLocationName]= useState("");
     const[photoName, setPhotoName]=useState('');
     const [hasPermission, setHasPermission] = useState(null);
@@ -29,26 +30,18 @@ const CreatePostsScreen = () => {
         setPhoto(uri)
     }
 
-
     useEffect(() => {
         (async () => {
           const { status } = await Camera.requestPermissionsAsync();
           await MediaLibrary.requestPermissionsAsync();
           setHasPermission(status === "granted");
         })();
+
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== "granted") {
               alert("Перейдіть у налаштування дозволів і налаштуйте доступ до геолокації");
             }
-      
-            let location = await Location.getCurrentPositionAsync({});
-            const coords = {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            };
-
-            setLocation(coords);
           })();
     }, []);      
       if (hasPermission === null) {
@@ -57,14 +50,29 @@ const CreatePostsScreen = () => {
       if (hasPermission === false) {
         return <Text>No access to camera</Text>;
     }
-    const onPublication=()=>{
-        console.log({
-            photoName,location,locationName,photo
-        })
+    const onPublication= async ()=>{
+        let locate = await Location.getCurrentPositionAsync({});
+        const coords = {
+          latitude: locate.coords.latitude,
+          longitude: locate.coords.longitude,
+        };
+
+        const createPost = await {
+            id: photo,
+            image: photo,
+            title:photoName,
+            like:"0",
+            comments:"0",
+            coords,
+            locationName:locationName,
+        }
+        reset();
+        navigation.navigate("Home", createPost)
     }
 
     const reset = ()=>{
         setPhotoName("")
+        setLocationName('')
         setPhoto('')
     }
 
@@ -145,10 +153,11 @@ const CreatePostsScreen = () => {
                                     placeholder="Місцевість..."
                         />
                     </KeyboardAvoidingView>
-                    <Pressable style={styles.button}
+                    <Pressable style={(locationName.length === 0 || photoName.length === 0) ? styles.buttonDisabled : styles.button}
                         onPress={()=>onPublication()}
+                        disabled={(locationName.length === 0 || photoName.length === 0)}
                     >
-                        <Text style={styles.buttonText}>Опубліковати</Text>
+                        <Text style={(locationName.length === 0 || photoName.length === 0) ?styles.buttonDisabledText :styles.buttonText}>Опубліковати</Text>
                     </Pressable>
                 </View>
             </View>
@@ -263,12 +272,21 @@ const styles = StyleSheet.create({
             fontSize: 30,
             fontSize: 16,
             lineHeight: 19,
-            // color:"#FFFFFF",
-            color:"#BDBDBD"
+            color:"#FFFFFF",
+            // color:"#BDBDBD"
+    },
+    buttonDisabledText:{
+        fontFamily: 'Roboto',
+        fontStyle: "normal",
+        fontWeight: 500,
+        fontSize: 30,
+        fontSize: 16,
+        lineHeight: 19,
+        color:"#BDBDBD"
     },
     button: {
-        backgroundColor: "#F6F6F6",
-        // backgroundColor: "#FF6C00",
+        // backgroundColor: "#F6F6F6",
+        backgroundColor: "#FF6C00",
         borderRadius: 100,
         width: "100%",
         height: 51,
@@ -278,6 +296,19 @@ const styles = StyleSheet.create({
         flexirection: "column",
         alignItems: "center",
         padding: 16,
+
+    },
+    buttonDisabled:{
+          backgroundColor: "#F6F6F6",
+          borderRadius: 100,
+          width: "100%",
+          height: 51,
+          padding:0,
+          display: "flex",
+          marginTop:16,
+          flexirection: "column",
+          alignItems: "center",
+          padding: 16,
 
     },
     input: {

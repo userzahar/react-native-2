@@ -1,70 +1,32 @@
-import { View, Text, Image,ScrollView, StyleSheet, FlatList,TouchableWithoutFeedback,Keyboard,  } from "react-native";
-import { useNavigation  } from "@react-navigation/native";
+import { View, Text, Image,ScrollView, StyleSheet, TouchableWithoutFeedback,Keyboard,  } from "react-native";
+import { useNavigation, useRoute  } from "@react-navigation/native";
 
 import exitImage from "../../Images/log-out.png"
 import userAvatar from "../../Images/default-user-avatar.png"
 import comment from "../../Images/comment.png";
 import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
-import ContentBlock from "../../Images/ContentBlock.png";
-import zahid from "../../Images/zahid.png";
-import italy from "../../Images/italy.png";
-import { Pressable } from "react-native";
 
-const POSTS = [
-    {
-        id: "45kaassd6-j54k-4jth",
-        image: zahid,
-        title:"Ліс",
-        like:"153",
-        comments:"8",
-        location:"Ukraine",
-      },
-      {
-        id: "45k6-asadj5jl4k-4jsadath",
-        image: ContentBlock,
-        title:"Захід",
-        like:"200",
-        comments:"3",
-        location:"Ukraine",
-      },
-      {
-        id: "45k6-j54k-4sdhkasafjth",
-        image: italy,
-        title:"Старий будиночок у Венеції",
-        like:"200",
-        comments:"50",
-        location:"Italy",
-      },
-      {
-        id: "45k6-j54k-j4sdasafjth",
-        image: italy,
-        title:"Старий будиночок у Венеції",
-        like:"200",
-        comments:"50",
-        location:"Italy",
-      },
-      {
-        id: "45k6-j54kh-4sdasafjth",
-        image: italy,
-        title:"Старий будиночок у Венеції",
-        like:"200",
-        comments:"50",
-        location:"Italy",
-      },
-      {
-        id: "45k6-j5g4k-4sdasafjth",
-        image: italy,
-        title:"Старий будиночок у Венеції",
-        like:"200",
-        comments:"50",
-        location:"Italy",
-      },
-];
+import { Pressable } from "react-native";
+import { useEffect, useState } from "react";
 
 
 const PostsScreen = () => {
+    const[posts, setPost]=useState([]);
+    const  {params}  = useRoute();
     const navigator = useNavigation();
+
+useEffect(()=>{
+   if(!params){
+    console.log("параметри не прийшли", params)
+   } else if(params){
+    console.log("параметри прийшли", params)
+   setPost(prev=>[...prev,{...params}
+])
+}
+},[params])
+
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
@@ -89,35 +51,35 @@ const PostsScreen = () => {
                         <Text>email@example.com</Text>
                     </View>
             </View>
-            <ScrollView vertical>
-                {POSTS.map((data) => {
+           {posts.length !== 0 && <ScrollView vertical>
+                {posts.map((data) => {
                     return (
-                    <View key={data.id} style={{marginBottom:32}}>
+                <View key={data.id} style={{marginBottom:32, width:"100%"}}>
                         <View style={{marginBottom:8}}>
-                            <Image source={data.image} style={{marginBottom:8}} />
+                            <Image source={{uri:data.image}} style={{marginBottom:8,height:240}} />
                             <Text>{data.title}</Text>     
                         </View>
-                        <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between",}}>
+                        <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:343}}>
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
-                                    <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
-                                        <Image source={comment} style={{width:24,height:24,marginRight:6,}} />
-                                        <Text>{data.comments}</Text>
-                                    </Pressable>
-                                    <View style={{display:"flex", flexDirection:"row"}}>
-                                        <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
-                                        <Text>{data.like}</Text>
+                                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
+                                                <Image source={comment} style={{width:24,height:24,marginRight:6,}} />
+                                                <Text>{data.comments}</Text>
+                                            </Pressable>
+                                            <View style={{display:"flex", flexDirection:"row"}}>
+                                                <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
+                                                <Text>{data.like}</Text>
+                                            </View>
                             </View>
+                                <Pressable style={{display:"flex", flexDirection:"row",marginLeft:10}} onPress={()=>navigator.navigate("Map",data.coords)}>
+                                            <Image source={locationIcon} style={{width:24,height:24,marginRight:6,}}/>
+                                            <Text>{data.locationName}</Text>
+                                </Pressable>
                         </View>
-                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Map")}>
-                                <Image source={locationIcon} style={{width:24,height:24,marginRight:6,}}/>
-                                <Text>{data.location}</Text>
-                            </Pressable>
-                        </View>
-                    </View>
+                </View>
                     )
                     }
                 )}
-            </ScrollView>
+            </ScrollView>}
         </View>
     </TouchableWithoutFeedback>    
 )
