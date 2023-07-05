@@ -1,39 +1,38 @@
-import { useReducer } from "react";
+import { useState } from "react";
 import { useNavigation  } from "@react-navigation/native";
-import { initialState } from "./initialState";
-import { reducer } from "./reducer";
+import {useDispatch} from "react-redux"
+import {authSingUp} from "../../redux/auth/authOperations"
+
 import { View, Text, Image,TextInput,StyleSheet,ImageBackground,Pressable,KeyboardAvoidingView,Platform,TouchableWithoutFeedback,Keyboard, }  from "react-native"
-// import LogoImage from '../../Images/default-user-avatar.png'
+
 import backgroundImage from "../../Images/Photo-BG.png";
 
 const RegistrationScreen = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
   const navigation = useNavigation();
+  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword]=useState('');
+  const dispatch = useDispatch();
 
-
-  const handleChange = (value, index) => {
-    dispatch({
-      type: "CHANGE",
-      payload: { index, value },
-    });
-  };
   const onRegister = () => {
     console.log({
-      name: state.input1.value,
-      email: state.input2.value,
-      password:state.input3.value,
+      login,
+      email,
+      password,
     })
-    if (state.input1.value.length > 4) {
-      dispatch({ type: "UNBLUR", payload: "input1" })
+    if (login.length > 4 && email.length > 4 && password.length > 4) {
+      dispatch(authSingUp({email,password,login}))
+      reset();
+      navigation.navigate("Home")
     }
-    if (state.input2.value.length > 4) {
-      dispatch({ type: "UNBLUR", payload: "input2" })
-    }
-    if (state.input3.value.length > 4) {
-      dispatch({ type: "UNBLUR", payload: "input3" })
-    };
-    navigation.navigate("Home")
+    
   }
+  const reset = ()=>{
+    setLogin("");
+    setEmail("");
+    setPassword("");
+  }
+
 
   return  (
     <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
@@ -50,29 +49,29 @@ const RegistrationScreen = () => {
                   
                       <Text style={styles.title}>Реєстрація</Text>
                       <KeyboardAvoidingView style={styles.containerWidth} behavior={Platform.OS == "ios" ? "padding" : "height"}>   
-                            <TextInput  type="text" name="input1"
-                                        style={{ borderColor: state.input1.borderColor, ...styles.input }}
-                                        onBlur={() => dispatch({ type: "BLUR", payload: "input1" })}
-                                        value={state.input1.value}
-                                        onChangeText={(value) => handleChange(value, "input1")}
+                            <TextInput  type="text" name="login"
+                                        style={{ borderColor: "#E8E8E8", ...styles.input }}
+                                        // onBlur={() => dispatch({ type: "BLUR", payload: "input1" })}
+                                        value={login}
+                                        onChangeText={setLogin}
                                         placeholder="Логін"
                             />
-                            <TextInput  type="mail" name="input2"
-                                        style={{ borderColor: state.input2.borderColor, ...styles.input }}
-                                        onBlur={() => dispatch({ type: "BLUR", payload: "input2" })}
-                                        onChangeText={(value) => handleChange(value, "input2")}
+                            <TextInput  type="mail" name="email"
+                                        style={{ borderColor:"#E8E8E8", ...styles.input }}
+                                        // onBlur={() => dispatch({ type: "BLUR", payload: "input2" })}
+                                        onChangeText={setEmail}
                                         placeholder="Адреса електронної пошти"
-                                        value={state.input2.value}
+                                        value={email}
                             />
                       </KeyboardAvoidingView>
                       <View style={styles.containerWidth}>
                           <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                              <TextInput  type="password" name="input3"
-                                          style={{ borderColor: state.input3.borderColor, ...styles.input }}
-                                          onBlur={() => dispatch({ type: "BLUR", payload: "input3" })}
-                                          onChangeText={(value) => handleChange(value, "input3")}
+                              <TextInput  type="password" name="password"
+                                          style={{ borderColor: "#E8E8E8", ...styles.input }}
+                                          // onBlur={() => dispatch({ type: "BLUR", payload: "input3" })}
+                                          onChangeText={setPassword}
                                           placeholder="Пароль"
-                                          value={state.input3.value}  
+                                          value={password}  
                               />
                           </KeyboardAvoidingView>
                           <Text style={{ position: "absolute", right: 16, top: 16, ...styles.textLink}}>Показати</Text>

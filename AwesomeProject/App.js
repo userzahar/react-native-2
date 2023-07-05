@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import useRoute from "./router";
 import {Provider} from "react-redux"
 import {store, persistor} from "./src/redux/store";
+import { useState } from "react";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -15,7 +16,7 @@ export default function App() {
     return null;
   }
   
-  const routes = useRoute({})
+  const routes = useRoute(NaN)
   
   return (
           <Provider store={store}>
