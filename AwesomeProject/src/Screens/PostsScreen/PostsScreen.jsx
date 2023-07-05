@@ -1,5 +1,6 @@
 import { View, Text, Image,ScrollView, StyleSheet, TouchableWithoutFeedback,Keyboard,  } from "react-native";
 import { useNavigation, useRoute  } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 
 import exitImage from "../../Images/log-out.png"
 import userAvatar from "../../Images/default-user-avatar.png"
@@ -8,7 +9,6 @@ import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
 
 import { Pressable } from "react-native";
-import { useEffect, useState } from "react";
 
 
 const PostsScreen = () => {

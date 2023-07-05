@@ -2,7 +2,7 @@ import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAv
 import {  useNavigation, useRoute } from '@react-navigation/native';
 
 
-import ContentBlock from "../../Images/ContentBlock.png";
+
 import arrowLeft from "../../Images/arrow-left.png";
 import avatar from "../../Images/avatar.png";
 import arrowUp from "../../Images/arrow-up.png";

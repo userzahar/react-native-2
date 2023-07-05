@@ -1,6 +1,6 @@
 import React from "react";
 import { View,StyleSheet, Pressable }  from "react-native"
-import { useNavigation } from '@react-navigation/native';
+
 
 
 import { createStackNavigator } from "@react-navigation/stack";
@@ -10,7 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // icons
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+
 
 import CommentsScreen from "./src/Screens/CommentsScreen/CommentsScreen";
 import CreatePostsScreen from "./src/Screens/CreatePostsScreen/CreatePostsScreen";
@@ -29,7 +29,6 @@ const MainTab = createBottomTabNavigator();
 
 
 const useRoute = (isAuth)=>{
-    // const navigation = useNavigation();
 
     if(!isAuth){
         return (

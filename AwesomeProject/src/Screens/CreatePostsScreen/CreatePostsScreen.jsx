@@ -1,5 +1,5 @@
 import { View, Text, Image,TextInput, StyleSheet,TouchableOpacity, Pressable,Platform, KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard,   } from "react-native";
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState,useEffect } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 

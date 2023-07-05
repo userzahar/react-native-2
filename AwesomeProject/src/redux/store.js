@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {configureStore } from '@reduxjs/toolkit';
 import {
   persistReducer,
   persistStore,
@@ -9,26 +9,18 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import rootReducer from './rootReducer';
+import {authSlice} from './auth/authReducer'
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
 };
-const authPersistConfig = {
-  key: 'auth',
-  storage: AsyncStorage,
-  whitelist: ['token'],
-};
 
-const reducer = combineReducers({
-  auth: persistReducer(authPersistConfig, authReducer),
-  posts: persistReducer(persistConfig, postsReducer),
-})
 
-const store = configureStore({
+const reducer = persistReducer(persistConfig, authSlice);
+
+export const store = configureStore({
   reducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
