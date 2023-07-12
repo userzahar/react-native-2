@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigation  } from "@react-navigation/native";
-import {useDispatch} from "react-redux"
-import {authSingUp} from "../../redux/auth/authOperations"
+
 
 import { View, Text, Image,TextInput,StyleSheet,ImageBackground,Pressable,KeyboardAvoidingView,Platform,TouchableWithoutFeedback,Keyboard, }  from "react-native"
 
@@ -12,7 +11,7 @@ const RegistrationScreen = () => {
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword]=useState('');
-  const dispatch = useDispatch();
+
 
   const onRegister = () => {
     console.log({
@@ -21,7 +20,6 @@ const RegistrationScreen = () => {
       password,
     })
     if (login.length > 4 && email.length > 4 && password.length > 4) {
-      dispatch(authSingUp({email,password,login}))
       reset();
       navigation.navigate("Home")
     }
