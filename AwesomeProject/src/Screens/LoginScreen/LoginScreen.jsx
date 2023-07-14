@@ -1,6 +1,7 @@
 
 import { useNavigation  } from "@react-navigation/native";
-
+import {useDispatch} from "react-redux"
+import {authSignInUser} from "../../redux/auth/authOperations"
 import {Platform, KeyboardAvoidingView, View, Text, TextInput,StyleSheet,ImageBackground,Pressable,TouchableWithoutFeedback,Keyboard }  from "react-native"
 // import LogoImage from '../../Images/default-user-avatar.png'
 import backgroundImage from "../../Images/Photo-BG.png";
@@ -11,15 +12,20 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword]=useState('');
 
+  const dispatch = useDispatch();
+
   const onLogin = () => {
-    console.log({
-      email,
-      password
-    })
-    if (email.length > 4 && password.length > 4) {
-      navigation.navigate("Home")
-    }
-    
+      dispatch(authSignInUser({
+        email,
+        password
+      }))
+      navigation.navigate("Home");
+      reset();
+  }
+
+  const reset = ()=>{
+    setEmail("");
+    setPassword("");
   }
 
 

@@ -1,11 +1,15 @@
-// Для роботи із firebase обовʼязково треба ініціалізувати проект
-import { initializeApp } from 'firebase/app';
-// Функція для підключення авторизації в проект
-import { getAuth } from "firebase/auth";
-// Функція для підключення бази даних у проект
+import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-// Функція для підключення сховища файлів в проект
+import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+
+import {
+getReactNativePersistence,
+  initializeAuth,
+} from 'firebase/auth/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDuixdXXobNS9Vr7ycDPkNmS9s0wTmQgDk",
@@ -17,15 +21,11 @@ const firebaseConfig = {
     measurementId: "G-SB935BPX9F"
 };
 
-const app = initializeApp(firebaseConfig);
-
-export const auth = getAuth(app);
+export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+// export const auth = getAuth(app);
 
-const { getDefaultConfig } = require('@expo/metro-config');
-
-const defaultConfig = getDefaultConfig(__dirname);
-defaultConfig.resolver.assetExts.push('cjs');
-
-module.exports = defaultConfig;
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
