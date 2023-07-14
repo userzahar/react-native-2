@@ -1,10 +1,11 @@
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
+
 import { useFonts } from "expo-font";
-import { NavigationContainer } from "@react-navigation/native";
+
 import useRoute from "./router";
 import {Provider} from "react-redux"
-import {store} from "./src/redux/store";
+
+import { store} from "./src/redux/store";
 import { Main } from "./src/components/Main";
 
 
@@ -21,7 +22,9 @@ export default function App() {
   
   return (
       <Provider store={store}>
-        <Main/>
+
+            <Main/>
+
       </Provider>
 
 

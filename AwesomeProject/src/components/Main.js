@@ -8,14 +8,14 @@ import { authStateChangeUser } from "../redux/auth/authOperations";
 
 
 export const Main = ()=>{
-    const stateAuth = useSelector(state => state.auth.stateChange);
-    console.log("stateAuth",stateAuth)
+    const stateChange = useSelector(state => state.auth.stateChange);
+    console.log("stateChange",stateChange)
     const dispatch = useDispatch()
     // useEffect(()=>{
     //     dispatch(authStateChangeUser())
     //     console.log("перший рендер")
     // },[])
-    const router = useRoute(stateAuth);
+    const router = useRoute(stateChange);
     return (
     <NavigationContainer>
         {router}
