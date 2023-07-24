@@ -40,8 +40,6 @@ const useRoute = (isAuth)=>{
             />
             <MainStack.Screen 
             options={{headerShown:false}}  name="Login" component={LoginScreen} />
-            <MainStack.Screen  
-            options={{headerShown:false}} name="Home" component={PostsScreen} />
           </MainStack.Navigator>
         )
     }

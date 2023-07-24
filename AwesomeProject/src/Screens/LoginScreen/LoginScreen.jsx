@@ -19,7 +19,6 @@ const LoginScreen = () => {
         email,
         password
       }))
-      navigation.navigate("Home");
       reset();
   }
 
