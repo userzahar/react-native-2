@@ -41,11 +41,23 @@ export const authSignInUser = ({email, password})=>async (dispatch, getState)=>{
     }
 };
 
-export const authSignOutUser = ()=>async (dispatch, getState)=>{}; 
+export const authSignOutUser = () => async (dispatch, getState)=>{
+    auth.signOut();
+    dispatch(authSingOut())
+}; 
 
-// export const authStateChangeUser = () => async (dispatch, getState) => {
-    
-    // }
+export const authStateChangeUser = () => async (dispatch, getState) => {
+    auth.onAuthStateChanged((user)=>{
+        if(user){
+            const updateUser = {
+                userId: user.uid,
+                login: user.displayName
+            }
+            dispatch(authStateChange({stateChange:true})); 
+            dispatch(updateUserProfile(updateUser)); 
+        }
+    })
+    }
     
     //    await onAuthStateChanged(auth, (user)=>{
     //         if(user) {

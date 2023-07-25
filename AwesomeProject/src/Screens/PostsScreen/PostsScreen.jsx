@@ -9,22 +9,28 @@ import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
 
 import { Pressable } from "react-native";
-
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "../../redux/auth/authOperations";
 
 const PostsScreen = () => {
     const[posts, setPost]=useState([]);
     const  {params}  = useRoute();
     const navigator = useNavigation();
 
-useEffect(()=>{
-   if(!params){
-    console.log("параметри не прийшли", params)
-   } else if(params){
-    console.log("параметри прийшли", params)
-   setPost(prev=>[...prev,{...params}
-])
-}
-},[params])
+    const dispatch = useDispatch()
+
+    const heandleLogOut =()=>{
+        dispatch(authSignOutUser())
+    }
+
+    useEffect(()=>{
+        if(!params){
+            console.log("пости не прийшли", params)
+        } else if(params){
+            console.log("пости прийшли", params)
+            setPost(prev=>[...prev,{...params}])
+        }
+    },[params])
 
 
     return (
@@ -33,7 +39,7 @@ useEffect(()=>{
             <View style={styles.header}>
                 <Text style={styles.title}>Публікації</Text>
                 <Pressable  style={styles.exitButton}
-                    onPress={() => alert("у майбутньому буде розлогінювати")}>
+                    onPress={heandleLogOut}>
                     <Image
                     source={exitImage}
                         style={styles.exitIcon}
