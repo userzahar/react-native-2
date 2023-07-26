@@ -10,6 +10,7 @@ import italy from "../../Images/italy.png";
 import comment from "../../Images/comment.png";
 import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
+import { useSelector } from "react-redux";
 
 const POSTS = [
     {
@@ -41,6 +42,7 @@ const POSTS = [
 
 const ProfileScreen =  ()=>{
   const navigator = useNavigation();
+  const {login} = useSelector(state => state.auth);
 
     return ( 
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
@@ -54,7 +56,7 @@ const ProfileScreen =  ()=>{
                 <Text style={styles.textButtonAddImage} >+</Text>
               </Pressable>
             </View>
-            <Text style={styles.title}>Natali Romanova</Text>
+            <Text style={styles.title}>{login}</Text>
             <ScrollView vertical>
                 {POSTS.map((data) => {
                     return (

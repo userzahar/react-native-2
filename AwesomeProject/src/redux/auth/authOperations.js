@@ -17,7 +17,8 @@ export const authSignUpUser = ({ email, password, login}) => async (dispatch, ge
                 console.log("updateUser updateUser",updateUser)
                 const userId = updateUser.uid
                 const login = updateUser.displayName
-                dispatch(updateUserProfile({userId,login}));
+                const email = updateUser.email
+                dispatch(updateUserProfile({userId,login,email}));
             } catch (error) {
                 console.log("🤦‍♂️error: ",error)
             }
@@ -33,7 +34,7 @@ export const authSignInUser = ({email, password})=>async (dispatch, getState)=>{
     try {
         const data = await signInWithEmailAndPassword(auth, email, password);
         const userId = data.user.uid;
-        dispatch(authSlice.actions.updateUserProfile({userId}));
+        dispatch(updateUserProfile({userId}));
         console.log("💕", {userId})
     } catch (er) {
         console.log("error: ",er)
@@ -51,7 +52,8 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
         if(user){
             const updateUser = {
                 userId: user.uid,
-                login: user.displayName
+                login: user.displayName,
+                email:user.email,
             }
             dispatch(authStateChange({stateChange:true})); 
             dispatch(updateUserProfile(updateUser)); 
@@ -59,13 +61,3 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
     })
     }
     
-    //    await onAuthStateChanged(auth, (user)=>{
-    //         if(user) {
-    //             const userUpdateProfile = {
-    //                 userId:user.uid,
-    //                 login:user.displayName
-    //             }
-    //             dispatch(authStateChangeUser({stateChange:true}))
-    //             dispatch(updateUserProfile(userUpdateProfile))
-    //         }
-    //    })

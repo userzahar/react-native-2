@@ -9,13 +9,15 @@ import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
 
 import { Pressable } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 
 const PostsScreen = () => {
     const[posts, setPost]=useState([]);
     const  {params}  = useRoute();
     const navigator = useNavigation();
+
+    const {login,email} = useSelector(state => state.auth);
 
     const dispatch = useDispatch()
 
@@ -53,8 +55,8 @@ const PostsScreen = () => {
                         style={styles.image} />
                 </View>
                     <View>
-                        <Text>Natali Romanova</Text>
-                        <Text>email@example.com</Text>
+                        <Text>{login}</Text>
+                        <Text>{email}</Text>
                     </View>
             </View>
            {posts.length !== 0 && <ScrollView vertical>
