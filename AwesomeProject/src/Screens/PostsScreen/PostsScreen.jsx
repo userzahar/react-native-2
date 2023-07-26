@@ -2,6 +2,7 @@ import { View, Text, Image,ScrollView, StyleSheet, TouchableWithoutFeedback,Keyb
 import { useNavigation, useRoute  } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 
+
 import exitImage from "../../Images/log-out.png"
 import userAvatar from "../../Images/default-user-avatar.png"
 import comment from "../../Images/comment.png";
@@ -32,7 +33,7 @@ const PostsScreen = () => {
             console.log("пости прийшли", params)
             setPost(prev=>[...prev,{...params}])
         }
-    },[params])
+    },[params]);
 
 
     return (

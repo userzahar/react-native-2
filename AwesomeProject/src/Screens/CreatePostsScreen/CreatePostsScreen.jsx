@@ -2,7 +2,8 @@ import { View, Text, Image,TextInput, StyleSheet,TouchableOpacity, Pressable,Pla
 import React, { useState,useEffect } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-
+import { db } from "../../firebase/config";
+import { collection, addDoc } from "firebase/firestore";
 
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
@@ -50,12 +51,37 @@ const CreatePostsScreen = () => {
       if (hasPermission === false) {
         return <Text>No access to camera</Text>;
     }
+
+    const uploadPhotoToServer = async () => {
+        const response = await fetch(photo);
+        const file = await response.blob();
+        const uniqueId = Date.now().toString();
+        console.log("блобнуте фото",file);
+        return addedPhoto;
+    };
+    
+    const writeDataToFirestore = async () => {
+        try {
+          const docRef = await addDoc(collection(db, 'users'), {
+            first: 'Ada',
+            last: 'Lovelace',
+            born: 1815
+          });
+          console.log('Document written with ID: ', docRef.id);
+        } catch (e) {
+          console.error('Error adding document: ', e);
+            throw e;
+        }
+  };
+
     const onPublication= async ()=>{
         let locate = await Location.getCurrentPositionAsync({});
         const coords = {
           latitude: locate.coords.latitude,
           longitude: locate.coords.longitude,
         };
+        writeDataToFirestore()
+        // uploadPhotoToServer();
 
         const createPost = await {
             id: photo,
@@ -75,6 +101,8 @@ const CreatePostsScreen = () => {
         setLocationName('')
         setPhoto('')
     }
+
+
 
     return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
