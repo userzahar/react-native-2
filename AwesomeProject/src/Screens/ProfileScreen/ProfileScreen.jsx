@@ -10,7 +10,9 @@ import italy from "../../Images/italy.png";
 import comment from "../../Images/comment.png";
 import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getDataFromFirestore } from "../../redux/posts/postsOperation";
 
 const POSTS = [
     {
@@ -43,6 +45,12 @@ const POSTS = [
 const ProfileScreen =  ()=>{
   const navigator = useNavigation();
   const {login} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const {posts} = useSelector(state=>state.post)
+  console.log("TATTATATATTA",posts)
+  useEffect(()=>{
+    dispatch(getDataFromFirestore())
+  },[])
 
     return ( 
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
@@ -58,27 +66,27 @@ const ProfileScreen =  ()=>{
             </View>
             <Text style={styles.title}>{login}</Text>
             <ScrollView vertical>
-                {POSTS.map((data) => {
+                {posts.map((data) => {
                     return (
                     <View key={data.id} style={{marginBottom:32}}>
                         <View style={{marginBottom:8}}>
-                            <Image source={data.image} style={{marginBottom:8}} />
-                            <Text>{data.title}</Text>     
+                            <Image source={data.posts.image} style={{marginBottom:8}} />
+                            <Text>{data.posts.title}</Text>     
                         </View>
                         <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between",}}>
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
                                     <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
                                         <Image source={comment} style={{width:24,height:24,marginRight:6,}}/>
-                                        <Text>{data.comments}</Text>
+                                        <Text>{data.posts.comments}</Text>
                                     </Pressable>
                                     <View style={{display:"flex", flexDirection:"row"}}>
                                         <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
-                                        <Text>{data.like}</Text>
+                                        <Text>{data.posts.like}</Text>
                             </View>
                         </View>
                             <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Map")}>
                                 <Image source={locationIcon} style={{width:24,height:24,marginRight:6,}}/>
-                                <Text>{data.location}</Text>
+                                <Text>{data.posts.location}</Text>
                             </Pressable>
                         </View>
                     </View>

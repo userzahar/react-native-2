@@ -57,44 +57,46 @@ const CreatePostsScreen = () => {
         const file = await response.blob();
         const uniqueId = Date.now().toString();
         console.log("блобнуте фото",file);
-        return addedPhoto;
+  
     };
     
-    const writeDataToFirestore = async () => {
+    const writePostToFirestore = async (post) => {
         try {
-          const docRef = await addDoc(collection(db, 'users'), {
-            first: 'Ada',
-            last: 'Lovelace',
-            born: 1815
-          });
+          const docRef = await addDoc(collection(db, 'posts'), post);
           console.log('Document written with ID: ', docRef.id);
         } catch (e) {
           console.error('Error adding document: ', e);
             throw e;
         }
-  };
+    };
 
     const onPublication= async ()=>{
+
         let locate = await Location.getCurrentPositionAsync({});
+
         const coords = {
           latitude: locate.coords.latitude,
           longitude: locate.coords.longitude,
         };
-        writeDataToFirestore()
-        // uploadPhotoToServer();
+
+        const response = await fetch(photo);
+        const file = await response.blob();
 
         const createPost = await {
-            id: photo,
-            image: photo,
+            image: file,
             title:photoName,
             like:"0",
             comments:"0",
             coords,
             locationName:locationName,
         }
+
+        writePostToFirestore(createPost);
+
         reset();
         navigation.navigate("Home", createPost)
     }
+
 
     const reset = ()=>{
         setPhotoName("")
