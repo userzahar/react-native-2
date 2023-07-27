@@ -2,7 +2,8 @@ import { View, Text, Image,TextInput, StyleSheet,TouchableOpacity, Pressable,Pla
 import React, { useState,useEffect } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import { db } from "../../firebase/config";
+import { db, storage } from "../../firebase/config";
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
 import { collection, addDoc } from "firebase/firestore";
 
 import * as Location from "expo-location";
@@ -14,6 +15,8 @@ import trashIcon from "../../Images/trashIcon.png";
 import cameraBlack from "../../Images/camera-black.png"
 import cameraWhite from "../../Images/camera-white.png"
 import locationIcon from "../../Images/locationIcon.png"
+import { useDispatch } from "react-redux";
+import { createPostToFirestore } from "../../redux/posts/postsOperation";
 
 
 const CreatePostsScreen = () => {
@@ -25,6 +28,7 @@ const CreatePostsScreen = () => {
     const [cameraRef, setCameraRef] = useState(null);
 
     const navigation = useNavigation()
+    const dispatch = useDispatch();
 
     const takePhoto = async ()=>{
         const  {uri}  = await cameraRef.takePictureAsync();
@@ -56,12 +60,15 @@ const CreatePostsScreen = () => {
         const response = await fetch(photo);
         const file = await response.blob();
         const uniqueId = Date.now().toString();
-        console.log("блобнуте фото",file);
-  
+        const storageRef = ref(storage,`postImage/${uniqueId}`);
+        await uploadBytes(storageRef, file);
+        const addedPhoto = await getDownloadURL(storageRef);
+        return addedPhoto;
     };
     
     const writePostToFirestore = async (post) => {
         try {
+            // console.log("пост який надсилаєм:",post)
           const docRef = await addDoc(collection(db, 'posts'), post);
           console.log('Document written with ID: ', docRef.id);
         } catch (e) {
@@ -79,19 +86,19 @@ const CreatePostsScreen = () => {
           longitude: locate.coords.longitude,
         };
 
-        const response = await fetch(photo);
-        const file = await response.blob();
-
+        const newPhoto = await uploadPhotoToServer();
+        
         const createPost = await {
-            image: file,
+            image: newPhoto,
             title:photoName,
             like:"0",
             comments:"0",
             coords,
             locationName:locationName,
         }
-
+        console.log("createPost",createPost)
         writePostToFirestore(createPost);
+        // dispatch(createPostToFirestore(createPost))
 
         reset();
         navigation.navigate("Home", createPost)

@@ -25,11 +25,7 @@ const MapScreen = () => {
       </View> 
       <MapView
         style={styles.mapStyle}
-        region={{
-          ...params,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+        region={params}
         showsUserLocation={true}
       >
         {params && (

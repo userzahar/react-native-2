@@ -47,7 +47,7 @@ const ProfileScreen =  ()=>{
   const {login} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const {posts} = useSelector(state=>state.post)
-  console.log("TATTATATATTA",posts)
+  console.log("пост зі firestore:" , posts)
   useEffect(()=>{
     dispatch(getDataFromFirestore())
   },[])
@@ -66,27 +66,28 @@ const ProfileScreen =  ()=>{
             </View>
             <Text style={styles.title}>{login}</Text>
             <ScrollView vertical>
-                {posts.map((data) => {
+                {posts.length !== 0 && 
+                posts.map(({posts}) => {
                     return (
-                    <View key={data.id} style={{marginBottom:32}}>
+                    <View key={posts.id} style={{marginBottom:32}}>
                         <View style={{marginBottom:8}}>
-                            <Image source={data.posts.image} style={{marginBottom:8}} />
-                            <Text>{data.posts.title}</Text>     
+                            <Image source={{uri:posts.image}} style={{marginBottom:8}} />
+                            <Text>{posts.title}</Text>     
                         </View>
                         <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between",}}>
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
                                     <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
                                         <Image source={comment} style={{width:24,height:24,marginRight:6,}}/>
-                                        <Text>{data.posts.comments}</Text>
+                                        <Text>{posts.comments}</Text>
                                     </Pressable>
                                     <View style={{display:"flex", flexDirection:"row"}}>
                                         <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
-                                        <Text>{data.posts.like}</Text>
+                                        <Text>{posts.like}</Text>
                             </View>
                         </View>
-                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Map")}>
+                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Map", posts.coords)}>
                                 <Image source={locationIcon} style={{width:24,height:24,marginRight:6,}}/>
-                                <Text>{data.posts.location}</Text>
+                                <Text>{posts.locationName}</Text>
                             </Pressable>
                         </View>
                     </View>

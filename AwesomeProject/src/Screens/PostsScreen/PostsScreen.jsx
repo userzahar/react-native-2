@@ -30,7 +30,7 @@ const PostsScreen = () => {
         if(!params){
             console.log("пости не прийшли", params)
         } else if(params){
-            console.log("пости прийшли", params)
+            // console.log("пости прийшли", params)
             setPost(prev=>[...prev,{...params}])
         }
     },[params]);
