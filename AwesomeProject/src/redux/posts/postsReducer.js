@@ -11,9 +11,11 @@ export const postsSlice = createSlice({
     reducers: {
         getPosts:((state,{payload})=>({
             ...state,
-            posts: [...payload.posts]
-        }
-        
-        ))
+            posts: payload.posts
+        })),
+        createPost:((state,{payload})=>({
+            ...state,
+            posts:[...state.posts, payload.post]
+        }))
     }
 })

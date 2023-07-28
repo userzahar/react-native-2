@@ -1,6 +1,9 @@
 import { View, Text, Image,ScrollView, StyleSheet, TouchableWithoutFeedback,Keyboard,  } from "react-native";
-import { useNavigation, useRoute  } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getDataFromFirestore } from "../../redux/posts/postsOperation";
+import { authSignOutUser } from "../../redux/auth/authOperations";
 
 
 import exitImage from "../../Images/log-out.png"
@@ -10,30 +13,32 @@ import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
 
 import { Pressable } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { authSignOutUser } from "../../redux/auth/authOperations";
 
 const PostsScreen = () => {
-    const[posts, setPost]=useState([]);
-    const  {params}  = useRoute();
+    // const[posts, setPost]=useState([]);
+    // const  {params}  = useRoute();
     const navigator = useNavigation();
-
+    const dispatch = useDispatch();
     const {login,email} = useSelector(state => state.auth);
-
-    const dispatch = useDispatch()
+    const {posts} = useSelector(state=>state.post)
+    console.log("всі пости" , posts)
+    
+    useEffect(()=>{
+        dispatch(getDataFromFirestore())
+      },[])
 
     const heandleLogOut =()=>{
         dispatch(authSignOutUser())
     }
 
-    useEffect(()=>{
-        if(!params){
-            console.log("пости не прийшли", params)
-        } else if(params){
-            // console.log("пости прийшли", params)
-            setPost(prev=>[...prev,{...params}])
-        }
-    },[params]);
+    // useEffect(()=>{
+    //     if(!params){
+    //         console.log("пости не прийшли", params)
+    //     } else if(params){
+    //         // console.log("пости прийшли", params)
+    //         setPost(prev=>[...prev,{...params}])
+    //     }
+    // },[params]);
 
 
     return (

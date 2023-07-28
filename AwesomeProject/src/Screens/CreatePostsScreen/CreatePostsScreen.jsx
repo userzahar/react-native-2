@@ -66,16 +66,16 @@ const CreatePostsScreen = () => {
         return addedPhoto;
     };
     
-    const writePostToFirestore = async (post) => {
-        try {
-            // console.log("пост який надсилаєм:",post)
-          const docRef = await addDoc(collection(db, 'posts'), post);
-          console.log('Document written with ID: ', docRef.id);
-        } catch (e) {
-          console.error('Error adding document: ', e);
-            throw e;
-        }
-    };
+    // const writePostToFirestore = async (post) => {
+    //     try {
+    //         // console.log("пост який надсилаєм:",post)
+    //       const docRef = await addDoc(collection(db, 'posts'), post);
+    //       console.log('Document written with ID: ', docRef.id);
+    //     } catch (e) {
+    //       console.error('Error adding document: ', e);
+    //         throw e;
+    //     }
+    // };
 
     const onPublication= async ()=>{
 
@@ -87,18 +87,19 @@ const CreatePostsScreen = () => {
         };
 
         const newPhoto = await uploadPhotoToServer();
-        
+        const postId = Date.now().toString();
         const createPost = await {
             image: newPhoto,
             title:photoName,
             like:"0",
             comments:"0",
+            id: postId,
             coords,
             locationName:locationName,
         }
         console.log("createPost",createPost)
-        writePostToFirestore(createPost);
-        // dispatch(createPostToFirestore(createPost))
+        // writePostToFirestore(createPost);
+        dispatch(createPostToFirestore(createPost))
 
         reset();
         navigation.navigate("Home", createPost)

@@ -1,56 +1,20 @@
 
 import { View, Text, Image,ScrollView,StyleSheet,ImageBackground,Pressable,TouchableWithoutFeedback,Keyboard, }  from "react-native"
-// import LogoImage from '../../Images/default-user-avatar.png'
+
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 import backgroundImage from "../../Images/Photo-BG.png";
-import ContentBlock from "../../Images/ContentBlock.png";
-import zahid from "../../Images/zahid.png";
-import italy from "../../Images/italy.png";
 import comment from "../../Images/comment.png";
 import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getDataFromFirestore } from "../../redux/posts/postsOperation";
-
-const POSTS = [
-    {
-        id: "45kaassd6-j54k-4jth",
-        image: zahid,
-        title:"Ліс",
-        like:"153",
-        comments:"8",
-        location:"Ukraine",
-      },
-      {
-        id: "45k6-asadj54k-4jsadath",
-        image: ContentBlock,
-        title:"Захід",
-        like:"200",
-        comments:"3",
-        location:"Ukraine",
-      },
-      {
-        id: "45k6-j54k-4sdasafjth",
-        image: italy,
-        title:"Старий будиночок у Венеції",
-        like:"200",
-        comments:"50",
-        location:"Italy",
-      },
-];
 
 
 const ProfileScreen =  ()=>{
   const navigator = useNavigation();
   const {login} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
   const {posts} = useSelector(state=>state.post)
-  console.log("пост зі firestore:" , posts)
-  useEffect(()=>{
-    dispatch(getDataFromFirestore())
-  },[])
+  console.log("всі пости" , posts)
 
     return ( 
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
@@ -67,11 +31,11 @@ const ProfileScreen =  ()=>{
             <Text style={styles.title}>{login}</Text>
             <ScrollView vertical>
                 {posts.length !== 0 && 
-                posts.map(({posts}) => {
+                posts.map((posts) => {
                     return (
                     <View key={posts.id} style={{marginBottom:32}}>
                         <View style={{marginBottom:8}}>
-                            <Image source={{uri:posts.image}} style={{marginBottom:8}} />
+                            <Image source={{uri:posts.image}} style={{marginBottom:8,width:343, height:240}} /> 
                             <Text>{posts.title}</Text>     
                         </View>
                         <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between",}}>
