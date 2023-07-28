@@ -21,7 +21,7 @@ export const getDataFromFirestore = () => async (dispatch, getState) => {
   };
 
 export const createPostToFirestore = (post) => async (dispatch, getState) => {
-    console.log("пост який надсилаєм:",post)
+    // console.log("пост який надсилаєм:",post)
     try {
             const docRef = await addDoc(collection(db, 'posts'), post);
             dispatch(createPost({post}))

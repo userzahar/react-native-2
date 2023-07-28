@@ -66,16 +66,6 @@ const CreatePostsScreen = () => {
         return addedPhoto;
     };
     
-    // const writePostToFirestore = async (post) => {
-    //     try {
-    //         // console.log("пост який надсилаєм:",post)
-    //       const docRef = await addDoc(collection(db, 'posts'), post);
-    //       console.log('Document written with ID: ', docRef.id);
-    //     } catch (e) {
-    //       console.error('Error adding document: ', e);
-    //         throw e;
-    //     }
-    // };
 
     const onPublication= async ()=>{
 
@@ -98,11 +88,9 @@ const CreatePostsScreen = () => {
             locationName:locationName,
         }
         console.log("createPost",createPost)
-        // writePostToFirestore(createPost);
+        navigation.navigate("Home")
         dispatch(createPostToFirestore(createPost))
-
         reset();
-        navigation.navigate("Home", createPost)
     }
 
 

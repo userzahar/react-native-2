@@ -15,14 +15,12 @@ import locationIcon from "../../Images/locationIcon.png";
 import { Pressable } from "react-native";
 
 const PostsScreen = () => {
-    // const[posts, setPost]=useState([]);
-    // const  {params}  = useRoute();
     const navigator = useNavigation();
     const dispatch = useDispatch();
     const {login,email} = useSelector(state => state.auth);
     const {posts} = useSelector(state=>state.post)
-    console.log("всі пости" , posts)
-    
+    // console.log("всі пости" , posts)
+
     useEffect(()=>{
         dispatch(getDataFromFirestore())
       },[])
@@ -30,16 +28,6 @@ const PostsScreen = () => {
     const heandleLogOut =()=>{
         dispatch(authSignOutUser())
     }
-
-    // useEffect(()=>{
-    //     if(!params){
-    //         console.log("пости не прийшли", params)
-    //     } else if(params){
-    //         // console.log("пости прийшли", params)
-    //         setPost(prev=>[...prev,{...params}])
-    //     }
-    // },[params]);
-
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
