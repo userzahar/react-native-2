@@ -87,7 +87,7 @@ const CreatePostsScreen = () => {
             coords,
             locationName:locationName,
         }
-        console.log("createPost",createPost)
+        // console.log("createPost",createPost)
         navigation.navigate("Home")
         dispatch(createPostToFirestore(createPost))
         reset();
