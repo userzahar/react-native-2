@@ -2,9 +2,8 @@ import { View, Text, Image,TextInput, StyleSheet,TouchableOpacity, Pressable,Pla
 import React, { useState,useEffect } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import { db, storage } from "../../firebase/config";
+import {  storage } from "../../firebase/config";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
-import { collection, addDoc } from "firebase/firestore";
 
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +14,7 @@ import trashIcon from "../../Images/trashIcon.png";
 import cameraBlack from "../../Images/camera-black.png"
 import cameraWhite from "../../Images/camera-white.png"
 import locationIcon from "../../Images/locationIcon.png"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createPostToFirestore } from "../../redux/posts/postsOperation";
 
 
@@ -24,6 +23,9 @@ const CreatePostsScreen = () => {
     const[photoName, setPhotoName]=useState('');
     const [hasPermission, setHasPermission] = useState(null);
     const [photo,setPhoto] =useState('');
+
+    const {userId} = useSelector(state => state.auth);
+    // console.log("наш юзер", userId)
 
     const [cameraRef, setCameraRef] = useState(null);
 
@@ -66,14 +68,14 @@ const CreatePostsScreen = () => {
         return addedPhoto;
     };
     
-
+    
     const onPublication= async ()=>{
-
+        
         let locate = await Location.getCurrentPositionAsync({});
-
+        
         const coords = {
-          latitude: locate.coords.latitude,
-          longitude: locate.coords.longitude,
+            latitude: locate.coords.latitude,
+            longitude: locate.coords.longitude,
         };
 
         const newPhoto = await uploadPhotoToServer();
@@ -81,19 +83,20 @@ const CreatePostsScreen = () => {
         const createPost = await {
             image: newPhoto,
             title:photoName,
+            userId,
             like:"0",
             comments:"0",
+            messages:[],
             id: postId,
             coords,
             locationName:locationName,
         }
-        // console.log("createPost",createPost)
         navigation.navigate("Home")
         dispatch(createPostToFirestore(createPost))
         reset();
     }
-
-
+    
+    
     const reset = ()=>{
         setPhotoName("")
         setLocationName('')
@@ -179,7 +182,10 @@ const CreatePostsScreen = () => {
                                     placeholder="Місцевість..."
                         />
                     </KeyboardAvoidingView>
-                    <Pressable style={(locationName.length === 0 || photoName.length === 0) ? styles.buttonDisabled : styles.button}
+                    <Pressable style={(locationName.length === 0 || photoName.length === 0) ? styles.buttonDisabled : ({ pressed }) => [
+    styles.button,
+    pressed && styles.buttonHover,
+  ]}
                         onPress={()=>onPublication()}
                         disabled={(locationName.length === 0 || photoName.length === 0)}
                     >
@@ -322,8 +328,12 @@ const styles = StyleSheet.create({
         flexirection: "column",
         alignItems: "center",
         padding: 16,
-
+       
     },
+    buttonHover: {
+        backgroundColor: "#BDBDBD",
+    },
+
     buttonDisabled:{
           backgroundColor: "#F6F6F6",
           borderRadius: 100,

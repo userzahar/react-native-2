@@ -1,7 +1,10 @@
 
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut} from 'firebase/auth';
 import { auth } from '../../firebase/config';
+// import { postsSlice } from '../posts/postsReducer';
 import { authSlice } from './authReducer';
+import { clearPostLogout } from '../posts/postsOperation';
+// const {logoutPosts} = postsSlice.actions;
 
 const {updateUserProfile, authSingOut, authStateChange} = authSlice.actions;
 
@@ -14,7 +17,7 @@ export const authSignUpUser = ({ email, password, login}) => async (dispatch, ge
             try {
                 await updateProfile(user, {displayName: setLogin });
                 const updateUser = await auth.currentUser
-                console.log("updateUser updateUser",updateUser)
+                // console.log("updateUser updateUser",updateUser)
                 const userId = updateUser.uid
                 const login = updateUser.displayName
                 const email = updateUser.email
@@ -34,8 +37,10 @@ export const authSignInUser = ({email, password})=>async (dispatch, getState)=>{
     try {
         const data = await signInWithEmailAndPassword(auth, email, password);
         const userId = data.user.uid;
-        dispatch(updateUserProfile({userId}));
-        console.log("💕", {userId})
+        const login = data.user.displayName
+        // const email = data.user.email
+        dispatch(updateUserProfile({userId,login,email}));
+        // console.log("💕", {userId})
     } catch (er) {
         console.log("error: ",er)
         console.log("er.message: ",er.message)
@@ -44,6 +49,8 @@ export const authSignInUser = ({email, password})=>async (dispatch, getState)=>{
 
 export const authSignOutUser = () => async (dispatch, getState)=>{
     auth.signOut();
+
+    await dispatch(clearPostLogout())
     dispatch(authSingOut())
 }; 
 

@@ -1,8 +1,8 @@
 import { View, Text, Image,ScrollView, StyleSheet, TouchableWithoutFeedback,Keyboard,  } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getDataFromFirestore } from "../../redux/posts/postsOperation";
+import { useEffect, useState } from "react";
+import { clearPostLogout, getDataFromFirestore } from "../../redux/posts/postsOperation";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 
 
@@ -15,17 +15,23 @@ import locationIcon from "../../Images/locationIcon.png";
 import { Pressable } from "react-native";
 
 const PostsScreen = () => {
+    // const [user, setUser]=useState(null);
     const navigator = useNavigation();
     const dispatch = useDispatch();
-    const {login,email} = useSelector(state => state.auth);
+    const {login,email, userId} = useSelector(state => state.auth);
+    // const state = useSelector(state=>state)
     const {posts} = useSelector(state=>state.post)
-    // console.log("всі пости" , posts)
 
-    useEffect(()=>{
-        dispatch(getDataFromFirestore())
-      },[])
-
-    const heandleLogOut =()=>{
+    // console.log("що відбувається?де пости????",post)
+    useEffect(()=>{    
+        // console.log("чи відбувся юзефект?",userId)
+        dispatch(getDataFromFirestore(userId))
+    },[userId])
+    
+    // console.log("Postu jaki prujshlu",posts)
+    
+    const heandleLogOut = async ()=>{
+        await dispatch(clearPostLogout())
         dispatch(authSignOutUser())
     }
 
@@ -53,7 +59,7 @@ const PostsScreen = () => {
                         <Text>{email}</Text>
                     </View>
             </View>
-           {posts.length !== 0 && <ScrollView vertical>
+           {posts?.length !== 0 && <ScrollView vertical>
                 {posts.map((data) => {
                     return (
                 <View key={data.id} style={{marginBottom:32, width:"100%"}}>

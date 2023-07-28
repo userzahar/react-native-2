@@ -1,21 +1,26 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 
-const statek = {
+const postState = {
     posts:[],
 }
 
 export const postsSlice = createSlice({
     name:"post",
-    initialState:statek,
+    initialState:postState,
     reducers: {
-        getPosts:((state,{payload})=>({
+        getPosts:((state,{payload})=>{
+            return {
             ...state,
             posts: payload.posts
-        })),
+        }}),
         createPost:((state,{payload})=>({
             ...state,
             posts:[...state.posts, payload.post]
+        })),
+        logoutPosts:((state,{payload})=>({
+           ...state,
+           posts:[]
         }))
     }
 })
