@@ -7,7 +7,7 @@ import arrowLeft from "../../Images/arrow-left.png";
 import avatar from "../../Images/avatar.png";
 import arrowUp from "../../Images/arrow-up.png";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const COURSES = [
     {
@@ -42,29 +42,33 @@ const COURSES = [
 
 
 const CommentsScreen = ()=>{
-    const { params: { postId } } = useRoute();
-    const {posts} = useSelector(state => state.post);
-    console.log(posts.map((post)=>console.log(post.message)));
-    
-    const [messages, setMessages] = useState(null);
+    const { params: { data } } = useRoute();
+    const [comment, setComment] = useState(null);
+    const [allComments, setAllComments] = useState([]);
+    const {id,message} = data;
 
-    // console.log("що приходить у коментарі?", postId)
     const {login,userId} = useSelector(state=>state.auth);
-    // console.log("login USERA, у майбуньому аватарка", login)
     
+    useEffect(()=>{
+        setAllComments(message)
+    },[])
+
     const createPost = async () => {
-        const ref = await doc(db, `posts:${userId}`, postId);
+        const ref = await doc(db, `posts:${userId}`, id);
         const commentId = Date.now().toString();
+        const newComment = {
+            avatar,
+            id:commentId,
+            userId,
+            login,
+            text:comment,
+            time:''
+        }
+        setAllComments((prev)=>[...prev, newComment])
         await updateDoc(ref, {
-            message: [{
-                avatar,
-                id:commentId,
-                userId,
-                login,
-                text:messages
-            }]
-          })
-          setMessage('')
+            message: allComments
+        })
+        setComment('')
     }
 
     const navigation = useNavigation();
@@ -75,7 +79,7 @@ const CommentsScreen = ()=>{
                     <Text style={styles.title}>Коментарі</Text>
                     <Pressable 
                         style={styles.arrowLeft}
-                        onPress={()=>navigation.navigate("Home")}>
+                        onPress={()=>navigation.navigate("Home", allComments.length)}>
                         <Image
                             source={arrowLeft}
                             />
@@ -85,11 +89,11 @@ const CommentsScreen = ()=>{
                 </View>
 
                     <ScrollView vertical style={{...styles.messageList}}>
-                        {COURSES.map((course) => {
+                        {allComments.length !== 0 && allComments.map((twit) => {
                             return (
-                            <View key={course.id} style={styles.messageListItem}>
-                                <View key={course.id} style={styles.avatarIMG}>
-                                    <Text>{login}</Text>
+                            <View key={twit.id} style={styles.messageListItem}>
+                                <View key={twit.id} style={styles.avatarIMG}>
+                                    <Text>{twit.login}</Text>
                                     {/* <Image
                                         source={avatar} 
                                         style={styles.avatarIMG}
@@ -97,9 +101,10 @@ const CommentsScreen = ()=>{
                                 </View>
                                 <View style={styles.messageTextContainer} >
                                     <View style={styles.messageText} >
-                                        <Text>{course.title}</Text>
+                                        <Text>{twit.text}</Text>
                                     </View>
-                                    <Text style={styles.dataText}>09 червня, 2020 | 08:40</Text>
+                                    <Text style={styles.dataText}>{twit.time}</Text>
+                                    {/* 09 червня, 2020 | 08:40 */}
                                 </View>           
                             </View>
                             )
@@ -116,9 +121,9 @@ const CommentsScreen = ()=>{
                                         //  borderColor: state.input2.borderColor, 
                                         ...styles.input }}
                                     // onBlur={() => dispatch({ type: "BLUR", payload: "input2" })}
-                                    onChangeText={setMessages}
+                                    onChangeText={setComment}
                                     placeholder="Коментувати..."
-                                    value={messages}
+                                    value={comment}
                         />
                         <Pressable style={styles.trashButton}
                             onPress={createPost}                                

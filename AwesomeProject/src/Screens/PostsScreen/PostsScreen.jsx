@@ -1,7 +1,7 @@
 import { View, Text, Image,ScrollView, StyleSheet, TouchableWithoutFeedback,Keyboard,  } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { clearPostLogout, getDataFromFirestore } from "../../redux/posts/postsOperation";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 
@@ -19,10 +19,12 @@ const PostsScreen = () => {
     const dispatch = useDispatch();
     const {login,email, userId} = useSelector(state => state.auth);
     const {posts} = useSelector(state=>state.post)
+    const { params } = useRoute();
 
     useEffect(()=>{    
+
         dispatch(getDataFromFirestore(userId))
-    },[userId])
+    },[userId,params])
     
     
     const heandleLogOut = async ()=>{
@@ -65,9 +67,9 @@ const PostsScreen = () => {
                         </View>
                         <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:343}}>
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
-                                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{postId:data.id})}>
+                                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
                                                 <Image source={comment} style={{width:24,height:24,marginRight:6,}} />
-                                                <Text>{data.message.length}</Text>
+                                                <Text>{data.message.length && params}</Text>
                                             </Pressable>
                                             <View style={{display:"flex", flexDirection:"row"}}>
                                                 <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
