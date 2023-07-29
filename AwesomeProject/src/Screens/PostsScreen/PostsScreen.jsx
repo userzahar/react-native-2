@@ -69,7 +69,7 @@ const PostsScreen = () => {
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
                                             <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
                                                 <Image source={comment} style={{width:24,height:24,marginRight:6,}} />
-                                                <Text>{data.message.length && params}</Text>
+                                                <Text>{0 && data.message.length && params}</Text>
                                             </Pressable>
                                             <View style={{display:"flex", flexDirection:"row"}}>
                                                 <Image source={like} style={{width:24,height:24,marginRight:6,}}/>

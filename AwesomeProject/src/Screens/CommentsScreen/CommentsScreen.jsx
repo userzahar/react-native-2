@@ -46,15 +46,28 @@ const CommentsScreen = ()=>{
     const [comment, setComment] = useState(null);
     const [allComments, setAllComments] = useState([]);
     const {id,message} = data;
+console.log("повідомлення які приходять першими:", message)
+console.log("повідомлення які зберігаються у сетстейті:", allComments)
 
     const {login,userId} = useSelector(state=>state.auth);
+console.log("айді юзера:", userId)
+
     
     useEffect(()=>{
         setAllComments(message)
-    },[])
+    },[userId])
+
+    useEffect(()=>{
+         (async()=>{
+            const ref = await doc(db, `posts:${userId}`, id);
+            updateDoc(ref, {
+                message: allComments
+            })
+        })()
+    },[allComments.length])
 
     const createPost = async () => {
-        const ref = await doc(db, `posts:${userId}`, id);
+
         const commentId = Date.now().toString();
         const newComment = {
             avatar,
@@ -64,10 +77,8 @@ const CommentsScreen = ()=>{
             text:comment,
             time:''
         }
+console.log("новий коментар!:", newComment)
         setAllComments((prev)=>[...prev, newComment])
-        await updateDoc(ref, {
-            message: allComments
-        })
         setComment('')
     }
 
