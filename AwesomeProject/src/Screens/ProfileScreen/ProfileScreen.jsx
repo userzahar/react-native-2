@@ -15,7 +15,7 @@ const ProfileScreen =  ()=>{
   const navigator = useNavigation();
   const {login,photoURL} = useSelector(state => state.auth);
   const {posts} = useSelector(state=>state.post)
-  
+
     return ( 
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
     <ImageBackground source={backgroundImage} style={styles.ImageBackground}>
@@ -42,7 +42,7 @@ const ProfileScreen =  ()=>{
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
                                     <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
                                         <Image source={comment} style={{width:24,height:24,marginRight:6,}}/>
-                                        <Text>{data.comments}</Text>
+                                        <Text>{data.message.length}</Text>
                                     </Pressable>
                                     <View style={{display:"flex", flexDirection:"row"}}>
                                         <Image source={like} style={{width:24,height:24,marginRight:6,}}/>

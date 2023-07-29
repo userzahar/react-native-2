@@ -113,6 +113,7 @@ const CommentsScreen = ()=>{
                                     value={comment}
                         />
                         <Pressable style={styles.trashButton}
+                        disabled={(comment.length === 0)}
                             onPress={createPost}                                
                         >
                             <Image

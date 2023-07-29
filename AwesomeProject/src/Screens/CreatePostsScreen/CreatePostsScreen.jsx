@@ -189,14 +189,17 @@ const CreatePostsScreen = () => {
                                     placeholder="Місцевість..."
                         />
                     </KeyboardAvoidingView>
-                    <Pressable style={(locationName.length === 0 || photoName.length === 0) ? styles.buttonDisabled : ({ pressed }) => [
+                    <Pressable style={(locationName.length === 0 || photoName.length === 0 || loading) ? styles.buttonDisabled : ({ pressed }) => [
     styles.button,
     pressed && styles.buttonHover,
   ]}
                         onPress={()=>onPublication()}
-                        disabled={(locationName.length === 0 || photoName.length === 0)}
+                        disabled={(locationName.length === 0 || photoName.length === 0 || loading)}
                     >
-                        <Text style={(locationName.length === 0 || photoName.length === 0) ?styles.buttonDisabledText :styles.buttonText}>{!loading ? "Опубліковати" : "Сворюється..."}</Text>
+                        <Text style={((locationName.length === 0 || photoName.length === 0 || loading)  ? styles.buttonDisabledText :styles.buttonText)}
+                        
+                        
+                        >{!loading ? "Опубліковати" : "Сворюється..."}</Text>
                     </Pressable>
                 </View>
             </View>
