@@ -25,6 +25,7 @@ const CreatePostsScreen = () => {
     const [photo,setPhoto] =useState('');
 
     const {userId} = useSelector(state => state.auth);
+
     // console.log("наш юзер", userId)
 
     const [cameraRef, setCameraRef] = useState(null);
@@ -35,6 +36,9 @@ const CreatePostsScreen = () => {
     const takePhoto = async ()=>{
         const  {uri}  = await cameraRef.takePictureAsync();
         setPhoto(uri)
+        if(!userId){
+            navigation.navigate("Registration", {avatar: uri})
+        }
     }
 
     useEffect(() => {
@@ -67,6 +71,7 @@ const CreatePostsScreen = () => {
         const addedPhoto = await getDownloadURL(storageRef);
         return addedPhoto;
     };
+
     
     
     const onPublication= async ()=>{

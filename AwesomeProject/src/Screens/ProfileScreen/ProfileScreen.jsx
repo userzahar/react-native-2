@@ -8,11 +8,12 @@ import backgroundImage from "../../Images/Photo-BG.png";
 import comment from "../../Images/comment.png";
 import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
+import defaultAvatar from "../../Images/default.jpg";
 
 
 const ProfileScreen =  ()=>{
   const navigator = useNavigation();
-  const {login} = useSelector(state => state.auth);
+  const {login,photoURL} = useSelector(state => state.auth);
   const {posts} = useSelector(state=>state.post)
 console.log("Name 💕",login)
     return ( 
@@ -21,7 +22,7 @@ console.log("Name 💕",login)
         <View style={styles.container}>
             <View style={styles.imageContainer}>
               <Image
-                //  source={LogoImage}
+                 source={photoURL?.length > 0 ? {uri:photoURL} : defaultAvatar}
                 style={styles.image} />
               <Pressable style={styles.addImgButton}>
                 <Text style={styles.textButtonAddImage} >+</Text>
@@ -30,27 +31,27 @@ console.log("Name 💕",login)
             <Text style={styles.title}>{login}</Text>
             <ScrollView vertical>
                 {posts.length !== 0 && 
-                posts.map((posts) => {
+                posts.map((data) => {
                     return (
-                    <View key={posts.id} style={{marginBottom:32}}>
+                    <View key={data.id} style={{marginBottom:32}}>
                         <View style={{marginBottom:8}}>
-                            <Image source={{uri:posts.image}} style={{marginBottom:8,width:343, height:240}} /> 
-                            <Text>{posts.title}</Text>     
+                            <Image source={{uri:data.image}} style={{marginBottom:8,width:343, height:240}} /> 
+                            <Text>{data.title}</Text>     
                         </View>
                         <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between",}}>
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
                                     <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
                                         <Image source={comment} style={{width:24,height:24,marginRight:6,}}/>
-                                        <Text>{posts.comments}</Text>
+                                        <Text>{data.comments}</Text>
                                     </Pressable>
                                     <View style={{display:"flex", flexDirection:"row"}}>
                                         <Image source={like} style={{width:24,height:24,marginRight:6,}}/>
-                                        <Text>{posts.like}</Text>
+                                        <Text>{data.like}</Text>
                             </View>
                         </View>
-                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Map", posts.coords)}>
+                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Map", data.coords)}>
                                 <Image source={locationIcon} style={{width:24,height:24,marginRight:6,}}/>
-                                <Text>{posts.locationName}</Text>
+                                <Text>{data.locationName}</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
       },
       image: {
         width: 120, height: 120,
+        borderRadius:8,
       },
       addImgButton: {
         position: "absolute",

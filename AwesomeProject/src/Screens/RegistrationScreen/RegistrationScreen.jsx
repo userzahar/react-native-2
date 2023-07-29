@@ -1,10 +1,13 @@
-import { useState } from "react";
-import { useNavigation  } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { useNavigation, useRoute  } from "@react-navigation/native";
 import { authSignUpUser } from "../../redux/auth/authOperations";
 import {useDispatch} from "react-redux"
+import {  storage } from "../../firebase/config";
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
 
 import { View, Text, Image,TextInput,StyleSheet,ImageBackground,Pressable,KeyboardAvoidingView,Platform,TouchableWithoutFeedback,Keyboard, }  from "react-native"
 
+import defaultAvatar from "../../Images/default.jpg";
 import backgroundImage from "../../Images/Photo-BG.png";
 
 const RegistrationScreen = () => {
@@ -12,26 +15,38 @@ const RegistrationScreen = () => {
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword]=useState('');
+  const [newPhoto, setNewPhoto] = useState("");
+  const {params} = useRoute();
+
   // const [onCamera, setOnCamera]=useState(false);
   // const [avatar, setAvatar] = useState('');
   
   const dispatch = useDispatch();
 
-  // const uploadPhotoToServer = async () => {
-  //       const response = await fetch(avatar);
-  //       const file = await response.blob();
-  //       const uniqueId = Date.now().toString();
-  //       const storageRef = ref(storage,`postImage/${uniqueId}`);
-  //       await uploadBytes(storageRef, file);
-  //       const addedPhoto = await getDownloadURL(storageRef);
-  //       return addedPhoto;
-  // };  
+  useEffect(()=>{
+    if(params?.avatar){
+      ( async ()=>{
+      const link = await uploadPhotoToServer()
+      setNewPhoto(link)
+      })()}
+      setNewPhoto("")
+    },[params?.avatar])
+
+  const uploadPhotoToServer = async () => {
+        const response = await fetch(params?.avatar);
+        const file = await response.blob();
+        const uniqueId = Date.now().toString();
+        const storageRef = ref(storage,`postImage/${uniqueId}`);
+        await uploadBytes(storageRef, file);
+        const addedPhoto = await getDownloadURL(storageRef);
+        return addedPhoto;
+  };  
 
 
-  const onRegister = () => {
+  const onRegister = async () => {
 
     dispatch(authSignUpUser({
-      // avatar,
+      avatar: newPhoto,
       login,
       email,
       password,
@@ -53,11 +68,21 @@ const RegistrationScreen = () => {
               <View style={styles.container}>
                   <View style={styles.imageContainer}>
                     <Image
-                      //  source={LogoImage}
+                       source={newPhoto.length > 0 ? {uri:params?.avatar}:defaultAvatar}
                       style={styles.image} />
-                    <Pressable style={styles.addImgButton}>
-                      <Text style={styles.textButtonAddImage} >+</Text>
-                    </Pressable>
+
+                    {newPhoto.length > 0 ? 
+                     <Pressable style={styles.changeImgButton}>
+                        <Text style={styles.textButtonChangeImage} 
+                          onPress={() => setNewPhoto("")}
+                          >x</Text>
+                      </Pressable> :
+                      <Pressable style={styles.addImgButton}>
+                        <Text style={styles.textButtonAddImage} 
+                        onPress={() => navigation.navigate("CreatePostsScreen")}
+                        >+</Text>
+                      </Pressable>}
+
                   </View>
                   
                       <Text style={styles.title}>Реєстрація</Text>
@@ -164,6 +189,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 120, height: 120,
+    borderRadius: 8,
   },
   addImgButton: {
     position: "absolute",
@@ -178,9 +204,28 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "#FF6C00",
   },
+  changeImgButton:{
+    position: "absolute",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 25,
+    height: 25,
+    bottom: 14,
+    right:-13,
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: "#BDBDBD",
+  },
   textButtonAddImage: {
     color: "#FF6C00",
     fontSize: 25,
+    position: "absolute",
+    top:-6,
+  },
+  textButtonChangeImage: {
+    color: "#BDBDBD",
+    fontSize: 21,
     position: "absolute",
     top:-6,
   },

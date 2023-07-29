@@ -4,7 +4,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 
 import arrowLeft from "../../Images/arrow-left.png";
-import avatar from "../../Images/avatar.png";
+import defaultAvatar from "../../Images/default.jpg";
 import arrowUp from "../../Images/arrow-up.png";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ const CommentsScreen = ()=>{
     const [allComments, setAllComments] = useState([]);
     const {id,message} = data;
 
-    const {login,userId} = useSelector(state=>state.auth);
+    const {login,userId, photoURL} = useSelector(state=>state.auth);
 
     
     useEffect(()=>{
@@ -47,7 +47,7 @@ const CommentsScreen = ()=>{
         const formattedDate = `${currentDate.getDate()} ${months[currentDate.getMonth()]}, ${currentDate.getFullYear()} | ${currentDate.getHours()}:${currentDate.getMinutes()}`;
         const commentId = Date.now().toString();
         const newComment = {
-            avatar,
+            avatar: photoURL,
             id:commentId,
             userId,
             login,
@@ -80,11 +80,11 @@ const CommentsScreen = ()=>{
                             return (
                             <View key={twit.id} style={styles.messageListItem}>
                                 <View key={twit.id} style={styles.avatarIMG}>
-                                    <Text>{twit.login}</Text>
-                                    {/* <Image
-                                        source={avatar} 
-                                        style={styles.avatarIMG}
-                                    />     */}
+                                    {/* <Text>{twit.login}</Text> */}
+                                    <Image
+                                        source={photoURL !== '' ? {uri: photoURL} : defaultAvatar} 
+                                        style={styles.cat}
+                                    />    
                                 </View>
                                 <View style={styles.messageTextContainer} >
                                     <View style={styles.messageText} >
@@ -168,7 +168,10 @@ const styles = StyleSheet.create({
     },
     avatarIMG: {
         width: 28, height: 28, marginRight:16,
+        
     },
+    cat:{width: "100%", height: "100%",borderRadius:100},
+
     input: {
         padding: 10,
         backgroundColor:"#F6F6F6",

@@ -5,9 +5,8 @@ import { useEffect } from "react";
 import { clearPostLogout, getDataFromFirestore } from "../../redux/posts/postsOperation";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 
-
+import defaultAvatar from "../../Images/default.jpg";
 import exitImage from "../../Images/log-out.png"
-import userAvatar from "../../Images/default-user-avatar.png"
 import comment from "../../Images/comment.png";
 import like from "../../Images/like.png";
 import locationIcon from "../../Images/locationIcon.png";
@@ -17,7 +16,7 @@ import { Pressable } from "react-native";
 const PostsScreen = () => {
     const navigator = useNavigation();
     const dispatch = useDispatch();
-    const {login,email, userId} = useSelector(state => state.auth);
+    const {login,email, userId,photoURL} = useSelector(state => state.auth);
     const {posts} = useSelector(state=>state.post)
     const { params } = useRoute();
     useEffect(()=>{    
@@ -46,7 +45,7 @@ const PostsScreen = () => {
             <View style={styles.profileContainer} >
                 <View style={styles.imageContainer}>
                     <Image
-                        source={userAvatar}
+                        source={photoURL?.length > 0 ? {uri:photoURL} : defaultAvatar}
                         style={styles.image} />
                 </View>
                     <View>
