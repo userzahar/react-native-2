@@ -55,7 +55,7 @@ console.log("айді юзера:", userId)
     
     useEffect(()=>{
         setAllComments(message)
-    },[userId])
+    },[id])
 
     useEffect(()=>{
          (async()=>{
