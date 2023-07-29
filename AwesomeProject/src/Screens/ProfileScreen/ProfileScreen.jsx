@@ -15,7 +15,7 @@ const ProfileScreen =  ()=>{
   const navigator = useNavigation();
   const {login,photoURL} = useSelector(state => state.auth);
   const {posts} = useSelector(state=>state.post)
-console.log("Name 💕",login)
+  
     return ( 
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
     <ImageBackground source={backgroundImage} style={styles.ImageBackground}>

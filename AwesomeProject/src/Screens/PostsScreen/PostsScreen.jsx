@@ -55,7 +55,6 @@ const PostsScreen = () => {
             </View>
            {posts?.length !== 0 && <ScrollView vertical>
                 {posts.map((data) => {
-                    console.log(data)
                     return (
                 <View key={data.id} style={{marginBottom:32, width:"100%"}}>
                         <View style={{marginBottom:8}}>

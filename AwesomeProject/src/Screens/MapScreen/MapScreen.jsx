@@ -10,7 +10,6 @@ import arrowLeft from "../../Images/arrow-left.png";
 const MapScreen = () => {  
   const navigation = useNavigation();
   const  {params}  = useRoute();
-  console.log("прийшли параметри", params)
 
   return (
     <View style={styles.container}>

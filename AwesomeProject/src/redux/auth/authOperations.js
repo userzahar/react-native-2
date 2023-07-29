@@ -22,7 +22,6 @@ export const authSignUpUser = ({ email, password, login, avatar}) => async (disp
                 const login = updateUser.displayName
                 const photoURL = updateUser.photoURL
                 const email = updateUser.email
-                console.log("оновлений юзер",updateUser)
                 dispatch(updateUserProfile({userId,login,email,photoURL}));
             } catch (error) {
                 console.log("🤦‍♂️error: ",error)
@@ -43,7 +42,6 @@ export const authSignInUser = ({email, password})=>async (dispatch, getState)=>{
         const photoURL = data.user.photoURL
         // const email = data.user.email
         dispatch(updateUserProfile({userId,login,email,photoURL}));
-        // console.log("💕", {userId})
     } catch (er) {
         console.log("error: ",er)
         console.log("er.message: ",er.message)

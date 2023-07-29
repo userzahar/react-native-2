@@ -6,7 +6,7 @@ import {  storage } from "../../firebase/config";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
 
 import * as Location from "expo-location";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 
 import arrowLeft from "../../Images/arrow-left.png";
@@ -18,19 +18,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPostToFirestore } from "../../redux/posts/postsOperation";
 
 
+
 const CreatePostsScreen = () => {
     const [locationName, setLocationName]= useState("");
     const[photoName, setPhotoName]=useState('');
     const [hasPermission, setHasPermission] = useState(null);
     const [photo,setPhoto] =useState('');
-
+    const [loading, setLoading] = useState(false)
+    
     const {userId} = useSelector(state => state.auth);
 
-    // console.log("наш юзер", userId)
 
     const [cameraRef, setCameraRef] = useState(null);
 
     const navigation = useNavigation()
+    
     const dispatch = useDispatch();
 
     const takePhoto = async ()=>{
@@ -75,7 +77,7 @@ const CreatePostsScreen = () => {
     
     
     const onPublication= async ()=>{
-        
+        setLoading(true)
         let locate = await Location.getCurrentPositionAsync({});
         
         const coords = {
@@ -95,8 +97,8 @@ const CreatePostsScreen = () => {
             coords,
             locationName:locationName,
         }
-        navigation.navigate("Home")
         dispatch(createPostToFirestore(createPost))
+        navigation.navigate("Home")
         reset();
     }
     
@@ -105,6 +107,7 @@ const CreatePostsScreen = () => {
         setPhotoName("")
         setLocationName('')
         setPhoto('')
+        setLoading(false)
     }
 
 
@@ -113,10 +116,10 @@ const CreatePostsScreen = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>    
         <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.title}>Створити публікацію</Text>
+                    <Text style={styles.title}>{userId ? "Створити публікацію": "Додати аватар"}</Text>
                     <Pressable 
                         style={styles.arrowLeft}
-                        onPress={()=>navigation.navigate("Home")}>
+                        onPress={()=> userId ? navigation.navigate("Home") : navigation.navigate("Registration")}>
                         <Image
                             source={arrowLeft}
                             />
@@ -193,7 +196,7 @@ const CreatePostsScreen = () => {
                         onPress={()=>onPublication()}
                         disabled={(locationName.length === 0 || photoName.length === 0)}
                     >
-                        <Text style={(locationName.length === 0 || photoName.length === 0) ?styles.buttonDisabledText :styles.buttonText}>Опубліковати</Text>
+                        <Text style={(locationName.length === 0 || photoName.length === 0) ?styles.buttonDisabledText :styles.buttonText}>{!loading ? "Опубліковати" : "Сворюється..."}</Text>
                     </Pressable>
                 </View>
             </View>

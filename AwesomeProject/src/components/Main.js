@@ -8,15 +8,8 @@ import { authStateChangeUser } from "../redux/auth/authOperations";
 
 
 export const Main = ()=>{
-    const {userId,login,stateChange} = useSelector(state => state.auth);
-    // const {posts} = useSelector(state => state.post);
-    
-    // console.log("чи видаляється пости?? ", posts)
+    const {stateChange} = useSelector(state => state.auth);
 
-    // console.log("чи видаляється юзерайді? ", userId)
-    // console.log("юзерАйдівРедаксі",userId)
-    // console.log("LoginРедаксі",login)
-    // console.log("stateChange v redux",stateChange)
 
     const dispatch = useDispatch()
     useEffect(()=>{
