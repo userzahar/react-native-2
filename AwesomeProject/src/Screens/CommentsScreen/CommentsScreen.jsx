@@ -9,35 +9,14 @@ import arrowUp from "../../Images/arrow-up.png";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-const COURSES = [
-    {
-      id: "45k6-j54k-4jth",
-      title: "HTML",
-    },
-    {
-      id: "4116-jfk5-43rh",
-      title: "JavaScript",
-    },
-    {
-      id: "4d16-5tt5-4j55",
-      title: "React",
-    },
-    {
-      id: "LG16-ant5-0J25",
-      title: "React Native",
-    },
-    {
-        id: "LG1a6-ant5-0J25",
-        title: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
-      },
-      {
-        id: "LGs16-ant5-0J25",
-        title: "pyp!",
-      },
-      {
-        id: "LG1d6-ant5-0J25",
-        title: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
-      },
+const months = [
+    "січня", "лютого", "березня", "квітня", 
+    "травня", "червня", "липня", "серпня", 
+    "вересня", "жовтня", "листопада", "грудня"
+  ];
+const daysOfWeek = [
+    "Неділя", "Понеділок", "Вівторок", "Середа",
+    "Четвер", "П'ятниця", "Субота"
   ];
 
 
@@ -46,11 +25,8 @@ const CommentsScreen = ()=>{
     const [comment, setComment] = useState(null);
     const [allComments, setAllComments] = useState([]);
     const {id,message} = data;
-console.log("повідомлення які приходять першими:", message)
-console.log("повідомлення які зберігаються у сетстейті:", allComments)
 
     const {login,userId} = useSelector(state=>state.auth);
-console.log("айді юзера:", userId)
 
     
     useEffect(()=>{
@@ -67,7 +43,8 @@ console.log("айді юзера:", userId)
     },[allComments.length])
 
     const createPost = async () => {
-
+        const currentDate = new Date();
+        const formattedDate = `${currentDate.getDate()} ${months[currentDate.getMonth()]}, ${currentDate.getFullYear()} | ${currentDate.getHours()}:${currentDate.getMinutes()}`;
         const commentId = Date.now().toString();
         const newComment = {
             avatar,
@@ -75,9 +52,8 @@ console.log("айді юзера:", userId)
             userId,
             login,
             text:comment,
-            time:''
+            time:formattedDate,
         }
-console.log("новий коментар!:", newComment)
         setAllComments((prev)=>[...prev, newComment])
         setComment('')
     }
