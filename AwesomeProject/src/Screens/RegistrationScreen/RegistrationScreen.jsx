@@ -12,10 +12,26 @@ const RegistrationScreen = () => {
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword]=useState('');
-const dispatch = useDispatch();
+  // const [onCamera, setOnCamera]=useState(false);
+  // const [avatar, setAvatar] = useState('');
+  
+  const dispatch = useDispatch();
+
+  // const uploadPhotoToServer = async () => {
+  //       const response = await fetch(avatar);
+  //       const file = await response.blob();
+  //       const uniqueId = Date.now().toString();
+  //       const storageRef = ref(storage,`postImage/${uniqueId}`);
+  //       await uploadBytes(storageRef, file);
+  //       const addedPhoto = await getDownloadURL(storageRef);
+  //       return addedPhoto;
+  // };  
+
 
   const onRegister = () => {
+
     dispatch(authSignUpUser({
+      // avatar,
       login,
       email,
       password,
@@ -27,6 +43,7 @@ const dispatch = useDispatch();
     setLogin("");
     setEmail("");
     setPassword("");
+    // setAvatar('https://th.bing.com/th/id/OIF.gcxoLjOpUF5IER9F802lgg?pid=ImgDet&rs=1');
   }
 
 

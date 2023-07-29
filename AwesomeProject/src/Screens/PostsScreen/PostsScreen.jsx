@@ -15,20 +15,15 @@ import locationIcon from "../../Images/locationIcon.png";
 import { Pressable } from "react-native";
 
 const PostsScreen = () => {
-    // const [user, setUser]=useState(null);
     const navigator = useNavigation();
     const dispatch = useDispatch();
     const {login,email, userId} = useSelector(state => state.auth);
-    // const state = useSelector(state=>state)
     const {posts} = useSelector(state=>state.post)
 
-    // console.log("що відбувається?де пости????",post)
     useEffect(()=>{    
-        // console.log("чи відбувся юзефект?",userId)
         dispatch(getDataFromFirestore(userId))
     },[userId])
     
-    // console.log("Postu jaki prujshlu",posts)
     
     const heandleLogOut = async ()=>{
         await dispatch(clearPostLogout())
@@ -61,6 +56,7 @@ const PostsScreen = () => {
             </View>
            {posts?.length !== 0 && <ScrollView vertical>
                 {posts.map((data) => {
+                    console.log(data)
                     return (
                 <View key={data.id} style={{marginBottom:32, width:"100%"}}>
                         <View style={{marginBottom:8}}>
@@ -69,9 +65,9 @@ const PostsScreen = () => {
                         </View>
                         <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:343}}>
                             <View style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:120}}>
-                                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{data})}>
+                                            <Pressable style={{display:"flex", flexDirection:"row"}} onPress={()=>navigator.navigate("Commentary",{postId:data.id})}>
                                                 <Image source={comment} style={{width:24,height:24,marginRight:6,}} />
-                                                <Text>{data.comments}</Text>
+                                                <Text>{data.message.length}</Text>
                                             </Pressable>
                                             <View style={{display:"flex", flexDirection:"row"}}>
                                                 <Image source={like} style={{width:24,height:24,marginRight:6,}}/>

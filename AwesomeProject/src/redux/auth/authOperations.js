@@ -13,11 +13,11 @@ export const authSignUpUser = ({ email, password, login}) => async (dispatch, ge
         const data = await createUserWithEmailAndPassword(auth, email, password);
         const user = await auth.currentUser;
         const setLogin = login;
+        
         if(user){
             try {
                 await updateProfile(user, {displayName: setLogin });
                 const updateUser = await auth.currentUser
-                // console.log("updateUser updateUser",updateUser)
                 const userId = updateUser.uid
                 const login = updateUser.displayName
                 const email = updateUser.email

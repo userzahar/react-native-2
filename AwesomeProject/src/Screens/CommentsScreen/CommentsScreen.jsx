@@ -1,11 +1,13 @@
 import { View, Text, Image,TextInput, StyleSheet, Pressable,Platform, KeyboardAvoidingView,ScrollView,TouchableWithoutFeedback,Keyboard,  } from "react-native";
 import {  useNavigation, useRoute } from '@react-navigation/native';
-
-
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase/config";
 
 import arrowLeft from "../../Images/arrow-left.png";
 import avatar from "../../Images/avatar.png";
 import arrowUp from "../../Images/arrow-up.png";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const COURSES = [
     {
@@ -40,7 +42,31 @@ const COURSES = [
 
 
 const CommentsScreen = ()=>{
-    const { params: { data } } = useRoute();
+    const { params: { postId } } = useRoute();
+    const {posts} = useSelector(state => state.post);
+    console.log(posts.map((post)=>console.log(post.message)));
+    
+    const [messages, setMessages] = useState(null);
+
+    // console.log("що приходить у коментарі?", postId)
+    const {login,userId} = useSelector(state=>state.auth);
+    // console.log("login USERA, у майбуньому аватарка", login)
+    
+    const createPost = async () => {
+        const ref = await doc(db, `posts:${userId}`, postId);
+        const commentId = Date.now().toString();
+        await updateDoc(ref, {
+            message: [{
+                avatar,
+                id:commentId,
+                userId,
+                login,
+                text:messages
+            }]
+          })
+          setMessage('')
+    }
+
     const navigation = useNavigation();
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -56,10 +82,6 @@ const CommentsScreen = ()=>{
                     </Pressable>
                 </View>                
                 <View style={styles.imageContainer}>
-                    <Image
-                        source={data.image}
-                        // style={}
-                    />
                 </View>
 
                     <ScrollView vertical style={{...styles.messageList}}>
@@ -67,10 +89,11 @@ const CommentsScreen = ()=>{
                             return (
                             <View key={course.id} style={styles.messageListItem}>
                                 <View key={course.id} style={styles.avatarIMG}>
-                                    <Image
+                                    <Text>{login}</Text>
+                                    {/* <Image
                                         source={avatar} 
                                         style={styles.avatarIMG}
-                                    />    
+                                    />     */}
                                 </View>
                                 <View style={styles.messageTextContainer} >
                                     <View style={styles.messageText} >
@@ -93,15 +116,17 @@ const CommentsScreen = ()=>{
                                         //  borderColor: state.input2.borderColor, 
                                         ...styles.input }}
                                     // onBlur={() => dispatch({ type: "BLUR", payload: "input2" })}
-                                    // onChangeText={(value) => handleChange(value, "input2")}
+                                    onChangeText={setMessages}
                                     placeholder="Коментувати..."
-                                    // value={state.input2.value}
+                                    value={messages}
                         />
-                        <Pressable style={styles.trashButton}>
+                        <Pressable style={styles.trashButton}
+                            onPress={createPost}                                
+                        >
                             <Image
                                 source={arrowUp}
                                 style={styles.trashIcon}
-                            />
+                                />
                         </Pressable>                
                     </KeyboardAvoidingView>
                 </View>
