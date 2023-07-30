@@ -40,7 +40,7 @@ const CommentsScreen = ()=>{
                 message: allComments
             })
         })()
-    },[allComments.length])
+    },[allComments])
 
     const createPost = async () => {
         const currentDate = new Date();
@@ -66,7 +66,7 @@ const CommentsScreen = ()=>{
                     <Text style={styles.title}>Коментарі</Text>
                     <Pressable 
                         style={styles.arrowLeft}
-                        onPress={()=>navigation.navigate("Home", allComments.length)}>
+                        onPress={()=>navigation.navigate("Home", allComments?.length || 0)}>
                         <Image
                             source={arrowLeft}
                             />
@@ -76,7 +76,7 @@ const CommentsScreen = ()=>{
                 </View>
 
                     <ScrollView vertical style={{...styles.messageList}}>
-                        {allComments.length !== 0 && allComments.map((twit) => {
+                        {allComments?.length !== 0 && allComments.map((twit) => {
                             return (
                             <View key={twit.id} style={styles.messageListItem}>
                                 <View key={twit.id} style={styles.avatarIMG}>
@@ -113,7 +113,7 @@ const CommentsScreen = ()=>{
                                     value={comment}
                         />
                         <Pressable style={styles.trashButton}
-                        disabled={(comment.length === 0)}
+                        disabled={(comment?.length === 0)}
                             onPress={createPost}                                
                         >
                             <Image
